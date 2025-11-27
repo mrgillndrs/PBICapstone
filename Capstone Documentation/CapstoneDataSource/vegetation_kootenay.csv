@@ -1,0 +1,22 @@
+﻿Plot ID,Date,Park Name,Trail,Species Present,Total Cover Along Transect,Percent Cover Per Species,Distance Between Transects,Location ID,Latitude,Longitude
+ECZ 3,14/08/2016,Kootenays National Park,East Kootenay Trail,Taraxacum officinale,0.03%,0.12%,2500,1,50.81675893,-115.9615281
+ECZ 3,14/08/2016,Kootenays National Park,East Kootenay Trail,Ranunculus acris,0.25%,1.00%,2500,2,50.81675893,-115.9615281
+ECZ 3,14/08/2016,Kootenays National Park,East Kootenay Trail,Leucanthemum vulgare,0.15%,0.15%,2500,3,50.81675893,-115.9615281
+ECZ 7,07/07/2016,Kootenays National Park,East Kootenay Trail,Leucanthemum vulgare,0.10%,0.40%,2500,4,50.76612229,-115.9340191
+ECZ 8,13/07/2016,Kootenays National Park,West Kootenay Trail,Leucanthemum vulgare,0.14%,0.56%,2500,5,50.83349743,-116.0482789
+ECZ 10,12/07/2016,Kootenays National Park,Hector Gorge,Leucanthemum vulgare,0.15%,0.15%,2500,6,50.85920736,-116.0060817
+ECZ 20,07/07/2016,Kootenays National Park,East Kootenays Trail,Leucanthemum vulgare,0.15%,0.15%,2500,7,50.74231923,-115.9031941
+ICZ 13,07/07/2016,Kootenays National Park,Settlers Road,,0.15%,0.15%,2500,8,50.68184431,-115.8698113
+ICZ 14,06/07/2016,Kootenays National Park,Highway 93 South,Leucanthemum vulgare,0.15%,0.15%,2500,9,50.66616737,-115.9564343
+ICZ 15,04/07/2016,Kootenays National Park,Highway 93 South,Leucanthemum vulgare,0.25%,1.00%,2500,10,50.64145462,-116.0048555
+ICZ 15,04/07/2016,Kootenays National Park,Highway 93 South,Euphorbia esula,0.15%,0.15%,2500,11,50.64145462,-116.0048555
+ICZ 19,06/07/2016,Kootenays National Park,Highway 93 South,Cirsium arvense,0.15%,0.15%,2500,12,50.67313404,-115.9381647
+ICZ 19,06/07/2016,Kootenays National Park,Highway 93 South,Ranunculus acris,0.15%,0.15%,2500,13,50.67313404,-115.9381647
+ICZ 23,11/07/2016,Kootenays National Park/93S,Highway 93 South,Hieracium aurantiacum,0.15%,0.15%,2500,14,51.02123369,-115.9781398
+ICZ 23,11/07/2016,Kootenays National Park/93S,Highway 93 South,Leucanthemum vulgare,0.15%,0.15%,2500,15,51.02123369,-115.9781398
+ICZ 23,11/07/2016,Kootenays National Park/93S,Highway 93 South,Sonchus arvensis,0.15%,0.15%,2500,16,51.02123369,-115.9781398
+ICZ 24,07/07/2016,Kootenays National Park/93S,Highway 93 South,Leucanthemum vulgare,0.15%,0.15%,2500,17,50.77109222,-115.9505133
+ICZ 25,11/07/2016,Kootenays National Park,Highway 93 South,Hieracium aurantiacum,0.15%,0.15%,2500,18,51.14292295,-116.14643
+ICZ 25,11/07/2016,Kootenays National Park,Highway 93 South,Leucanthemum vulgare,0.15%,0.15%,2500,19,51.14292295,-116.14643
+ICZ 32,11/07/2016,Kootenays National Park,Highway 93 South,Leucanthemum vulgare,1.05%,4.20%,2500,20,51.10273038,-116.0793971
+ICZ 32,11/07/2016,Kootenays National Park,Highway 93 South,Hieracium aurantiacum,0.15%,0.15%,2500,21,51.10273038,-116.0793971

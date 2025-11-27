@@ -1,0 +1,98 @@
+table factConservationByCountry
+	lineageTag: 8a6388b3-27a0-4580-9513-e88e16a439d9
+
+	measure 'Protected Marine Area' = sum(factConservationByCountry[Marine Area Protected])
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 25dde52e-0d61-49fa-bdff-d604457e5a14
+
+	measure 'Protected Land Area' = sum(factConservationByCountry[Terrestrial area protected])
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: e9bc3b34-1393-46dc-9942-1be62fa46f78
+
+	measure 'Marine Area Protected 1000km2 Measure' = sum(factConservationByCountry[Marine Area Protected 1000km2])
+		formatString: 0
+		lineageTag: 4bc23701-edbd-466b-a959-f185a491db3b
+
+	measure 'Terrestrial Area Protected 1000km2 Measure' = sum(factConservationByCountry[Terrestrial Area 1000km2])
+		formatString: 0
+		lineageTag: 2a407487-3e26-4ede-9e96-545e1902594b
+
+	column Country
+		dataType: string
+		lineageTag: 6fee5d96-04ba-471e-91ca-4561114af96f
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Terrestrial Area 1000km2'
+		dataType: int64
+		formatString: 0
+		lineageTag: 075599a4-9692-4d62-baa9-255706e19cd8
+		summarizeBy: sum
+		sourceColumn: Terrestrial Area 1000km2
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Terrestial area protected 1000km2'
+		dataType: int64
+		formatString: 0
+		lineageTag: 47db7359-3d2b-4760-bb96-823464c5fbbb
+		summarizeBy: sum
+		sourceColumn: Terrestial area protected 1000km2
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Terrestrial area protected'
+		dataType: double
+		lineageTag: 3858afac-3b71-447e-8eea-6307cab62587
+		summarizeBy: sum
+		sourceColumn: Terrestrial area protected
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Marine area 1000km2'
+		dataType: int64
+		formatString: 0
+		lineageTag: a969f732-e999-4204-af7d-30badd2a0f9c
+		summarizeBy: sum
+		sourceColumn: Marine area 1000km2
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Marine Area Protected 1000km2'
+		dataType: int64
+		formatString: 0
+		lineageTag: c34037e8-79a6-4691-bfcf-8549fe154dc2
+		summarizeBy: sum
+		sourceColumn: Marine Area Protected 1000km2
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Marine Area Protected'
+		dataType: double
+		lineageTag: a77d044c-871b-43a2-899e-9db3b4e2f8ee
+		summarizeBy: sum
+		sourceColumn: Marine Area Protected
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition factConservationByCountry = m
+		mode: import
+		queryGroup: Conservation
+		source =
+				let
+				    Source = Csv.Document(Web.Contents("https://mysait.sharepoint.com/sites/BSNCapstone200/Shared%20Documents/General/Capstone%20Datasets/Conservation%20by%20Country.csv"),[Delimiter=",", Columns=7, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Country", type text}, {"Terrestrial Area 1000km2", Int64.Type}, {"Terrestial area protected 1000km2", Int64.Type}, {"Terrestrial area protected", Percentage.Type}, {"Marine area 1000km2", Int64.Type}, {"Marine Area Protected 1000km2#(lf)", Int64.Type}, {"Marine Area Protected#(lf)", Percentage.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

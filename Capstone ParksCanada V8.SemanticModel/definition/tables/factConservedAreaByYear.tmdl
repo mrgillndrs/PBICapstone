@@ -1,0 +1,71 @@
+table factConservedAreaByYear
+	lineageTag: e2730228-f89b-4fbc-b513-54b529906ca9
+
+	measure 'Marine Area Conserved 1,000km2' = sum(factConservedAreaByYear[Marine area conserved 1000km2])
+		formatString: 0
+		lineageTag: c1320fb8-2448-4121-ac21-880f6204c178
+
+	measure 'Terrestrial Area Conserved 1,000km2' = sum(factConservedAreaByYear[Terrestrial area conserved 1000km2])
+		formatString: 0
+		lineageTag: 40ad164f-7b21-4d3e-a611-5901b974aed2
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 8cd9f3ed-45c1-42be-8c9d-3f338d1432b7
+		summarizeBy: none
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = User
+
+	column 'Terrestrial area conserved 1000km2'
+		dataType: int64
+		formatString: #,0
+		lineageTag: 714b055c-06f7-4f16-9996-e0fef4637506
+		summarizeBy: sum
+		sourceColumn: Terrestrial area conserved 1000km2
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Terrestrial area conserved'
+		dataType: double
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: a4fde991-600e-4dae-b074-162d23c06e92
+		summarizeBy: sum
+		sourceColumn: Terrestrial area conserved
+
+		annotation SummarizationSetBy = User
+
+	column 'Marine area conserved 1000km2'
+		dataType: int64
+		formatString: 0
+		lineageTag: 0761501b-9b76-40a9-a4f7-4391106662b5
+		summarizeBy: sum
+		sourceColumn: Marine area conserved 1000km2
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Marine area conserved'
+		dataType: double
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 6816527a-cc6e-42f7-93f4-63bea5f776cf
+		summarizeBy: sum
+		sourceColumn: Marine area conserved
+
+		annotation SummarizationSetBy = User
+
+	partition factConservedAreaByYear = m
+		mode: import
+		queryGroup: Conservation
+		source =
+				let
+				    Source = Csv.Document(Web.Contents("https://mysait.sharepoint.com/sites/BSNCapstone200/Shared%20Documents/General/Capstone%20Datasets/Percentage%20Conserved%20Area%20by%20Year.csv"),[Delimiter=",", Columns=5, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Year", Int64.Type}, {"Terrestrial area conserved 1000km2", Int64.Type}, {"Terrestrial area conserved", Percentage.Type}, {"Marine area conserved 1000km2", Int64.Type}, {"Marine area conserved", Percentage.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

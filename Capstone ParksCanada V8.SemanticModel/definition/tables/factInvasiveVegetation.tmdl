@@ -1,0 +1,349 @@
+table factInvasiveVegetation
+	lineageTag: 8919cf3b-c2d4-4d86-acef-051315b6e496
+
+	measure ChangeDetectionRate = ```
+			
+			VAR Year2014 = 
+			    CALCULATE(
+			        SUM('factInvasiveVegetation'[Number of Trees with blister rust cankers]),
+			        FILTER(
+			            'dimInvasiveDate',
+			            'dimInvasiveDate'[Year] = 2014
+			        )
+			    ) /
+			    CALCULATE(
+			        SUM('factInvasiveVegetation'[Number of Live Trees]),
+			        FILTER(
+			            'dimInvasiveDate',
+			            'dimInvasiveDate'[Year] = 2014
+			        )
+			    )
+			
+			VAR Year2019 = 
+			    CALCULATE(
+			        SUM('factInvasiveVegetation'[Number of Trees with blister rust cankers]),
+			        FILTER(
+			            'dimInvasiveDate',
+			            'dimInvasiveDate'[Year] = 2019
+			        )
+			    ) /
+			    CALCULATE(
+			        SUM('factInvasiveVegetation'[Number of Live Trees]),
+			        FILTER(
+			            'dimInvasiveDate',
+			            'dimInvasiveDate'[Year] = 2019
+			        )
+			    )
+			
+			VAR ChangeRate = (Year2019 - Year2014) / 5
+			
+			RETURN
+			ChangeRate
+			```
+		formatString: 0
+		lineageTag: d9834e30-6237-47cc-8e5e-08ae607f4ff9
+
+	measure 'Count of Infected Trees' = COUNT('factInvasiveVegetation'[Number of Trees with blister rust cankers])
+		formatString: 0
+		lineageTag: 5e8bafc5-4f51-48ad-9b37-731ba3629706
+
+	measure 'Infected Trees 2019' =
+			
+			CALCULATE(
+			    SUM('factInvasiveVegetation'[Number of Trees with blister rust cankers]),
+			    'Invasive Kootenays'[Year] = 2019
+			)
+			+
+			CALCULATE(
+			    SUM('factInvasiveVegetation'[Number of Trees with blister rust cankers]),
+			    'Invasive Yoho'[Year] = 2019
+			)
+		formatString: 0
+		lineageTag: 172c39b2-7c5b-4b90-bd63-a70d1a981f82
+
+	measure 'Infected Trees 2014' =
+			
+			CALCULATE(
+			    SUM('factInvasiveVegetation'[Number of Trees with blister rust cankers]),
+			    'Invasive Kootenays'[Year] = 2014
+			)
+			+
+			CALCULATE(
+			    SUM('factInvasiveVegetation'[Number of Trees with blister rust cankers]),
+			    'Invasive Yoho'[Year] = 2014
+			)
+		formatString: 0
+		lineageTag: a5d5d6f4-a57a-482a-b3a7-1af6ecbe9528
+
+	measure 'Infected Trees 2013' =
+			
+			CALCULATE(
+			    SUM('factInvasiveVegetation'[Number of Trees with blister rust cankers]),
+			    'Invasive Kootenays'[Year] = 2013
+			)
+			+
+			CALCULATE(
+			    SUM('factInvasiveVegetation'[Number of Trees with blister rust cankers]),
+			    'Invasive Yoho'[Year] = 2013
+			)
+		formatString: 0
+		lineageTag: 4d3ae63f-1f15-45a1-a720-5579d2b03f37
+
+	measure 'Infection % Change 2014 to 2019' =
+			
+			DIVIDE([Infected Trees 2019] - [Infected Trees 2014], [Infected Trees 2014])
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: b8c14da1-93bd-45e2-a560-d4489b133e83
+
+	measure 'Number of Trees in Plot Measure' = sum(factInvasiveVegetation[Number of Trees in Plot])
+		formatString: 0
+		lineageTag: fd08e0ad-3a7f-4602-a8f8-300f9995eaa6
+
+	measure 'Percentage of Trees Dead' = sum(factInvasiveVegetation[Percent of trees that are dead])
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: bba9d40a-af1a-4131-99aa-d9520f945884
+
+	measure 'Percentage of Trees Infected' = sum(factInvasiveVegetation[Percent of live trees infected with blister rust (only trees confidently assessed)])
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 20e15203-eb4d-444f-8d02-559a95afb7bf
+
+	measure 'Percentage of Trees Impacted' = sum(factInvasiveVegetation[Percent of trees that could be assessed (e.g. No uncertainty)]) + (factInvasiveVegetation[Percentage of Trees Infected])
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: fc71866d-396e-4535-a85d-2e7ba93f2428
+
+	measure 'Number of Dead Trees Measure' = sum(factInvasiveVegetation[Number of Dead Trees])
+		formatString: 0
+		lineageTag: 7107cfe0-d2d5-49b0-92be-85af055a7e67
+
+	measure 'Number of Trees Alive' = sum(factInvasiveVegetation[Number of Live Trees])
+		formatString: 0
+		lineageTag: 60bfa26f-ec4e-4344-bc76-93cb6c325a9e
+
+	measure 'Trees Not Impacted %' =
+			
+			DIVIDE(
+			    SUM('factInvasiveVegetation'[Number of Live Trees]),
+			    SUM('factInvasiveVegetation'[Number of Trees in Plot])
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: edb2b690-19ec-4a63-940c-69526201bb7e
+
+	measure 'Infected Trees %' =
+			
+			DIVIDE(
+			    SUM('factInvasiveVegetation'[Number of Trees with blister rust cankers]),
+			    SUM('factInvasiveVegetation'[Number of Trees in Plot])
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 116c6b99-a987-4d99-973a-3140f5bc0267
+
+	measure 'Dead Trees %' =
+			
+			DIVIDE(
+			    SUM('factInvasiveVegetation'[Number of Dead Trees]),
+			    SUM('factInvasiveVegetation'[Number of Trees in Plot])
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: f4fc7462-5639-4125-bab2-070e70ff22b9
+
+	measure 'At-Risk Percentage' = ```
+			
+			DIVIDE(
+			    SUM('factInvasiveVegetation'[Number of Dead Trees]) + 
+			    SUM('factInvasiveVegetation'[Number of Trees with blister rust cankers]),
+			    SUM('factInvasiveVegetation'[Number of Trees in Plot])
+			)
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 7e76676f-d1bd-467a-a663-4e2dc9cacbe5
+
+	measure 'Blister Cankers' = SUM('factInvasiveVegetation'[Number of Trees with blister rust cankers])
+		formatString: 0
+		lineageTag: 3d772c15-056d-408c-b77b-47cc6796db0f
+
+	measure 'Impacted Tree Percentage' =
+			
+			DIVIDE(
+			    SUM('factInvasiveVegetation'[Number of Dead Trees]) +
+			    SUM('factInvasiveVegetation'[Number of Trees with blister rust cankers]),
+			    SUM('factInvasiveVegetation'[Number of Trees in Plot])
+			)
+		lineageTag: 4dd1ba44-59d0-45cc-a567-5ed7188b437b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Plot Area (m2)'
+		dataType: int64
+		formatString: 0
+		lineageTag: d869b6bb-55ae-48a0-96d7-1ac7dbc7928a
+		summarizeBy: sum
+		sourceColumn: Plot Area (m2)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Number of Trees in Plot'
+		dataType: int64
+		formatString: 0
+		lineageTag: f49d7fa5-504c-41d6-8427-0ea85d0821c9
+		summarizeBy: sum
+		sourceColumn: Number of Trees in Plot
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Number of Dead Trees'
+		dataType: double
+		formatString: 0
+		lineageTag: cdc6fee4-5edf-49d4-9fe8-803eba956a56
+		summarizeBy: sum
+		sourceColumn: Number of Dead Trees
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Number of Live Trees'
+		dataType: int64
+		formatString: 0
+		lineageTag: c9b98c19-82e7-4895-8c25-dbaa49a45873
+		summarizeBy: sum
+		sourceColumn: Number of Live Trees
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Percent of trees that are dead'
+		dataType: double
+		lineageTag: a91eac54-6707-49c6-ac31-1d9bd3200895
+		summarizeBy: sum
+		sourceColumn: Percent of trees that are dead
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Percent of trees that are live'
+		dataType: double
+		lineageTag: 7d84c735-c06b-48f9-a26a-d00e506848e1
+		summarizeBy: sum
+		sourceColumn: Percent of trees that are live
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Percent of trees that could be assessed (e.g. No uncertainty)'
+		dataType: double
+		lineageTag: a4ed01b6-bc1e-47f0-82b6-132131d11224
+		summarizeBy: sum
+		sourceColumn: Percent of trees that could be assessed (e.g. No uncertainty)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Number of Trees with blister rust cankers'
+		dataType: int64
+		formatString: 0
+		lineageTag: 02365cf7-d75a-499b-8aac-01d0a9a1c9c7
+		summarizeBy: sum
+		sourceColumn: Number of Trees with blister rust cankers
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Percent of live trees infected with blister rust (only trees confidently assessed)'
+		dataType: double
+		lineageTag: 3d5940f4-6e31-4ecf-881e-1abdb8c7d8ca
+		summarizeBy: sum
+		sourceColumn: Percent of live trees infected with blister rust (only trees confidently assessed)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Percent of live trees that are healthy'
+		dataType: double
+		lineageTag: a71605d0-f566-4bc2-885a-e8227b454651
+		summarizeBy: sum
+		sourceColumn: Percent of live trees that are healthy
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Locator ID'
+		dataType: int64
+		formatString: 0
+		lineageTag: 2d464f10-12de-4e38-986e-c851a2beaff8
+		summarizeBy: count
+		sourceColumn: Locator ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'dimInvasivePlot.InvasivePlotID'
+		dataType: int64
+		formatString: 0
+		lineageTag: c1891171-ab95-4093-b6ca-4d4e3d0b0fbc
+		summarizeBy: none
+		sourceColumn: dimInvasivePlot.InvasivePlotID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'dimInvasiveSpecies.InvasiveSpeciesID'
+		dataType: int64
+		formatString: 0
+		lineageTag: 6379506a-192d-4159-bd39-4a729fb48d76
+		summarizeBy: none
+		sourceColumn: dimInvasiveSpecies.InvasiveSpeciesID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'dimInvasiveLocation.InvasiveLocationID'
+		dataType: int64
+		formatString: 0
+		lineageTag: fa734db0-38bc-4ab3-a5f1-aa5f1cf3b7e5
+		summarizeBy: none
+		sourceColumn: dimInvasiveLocation.InvasiveLocationID
+
+		annotation SummarizationSetBy = User
+
+	column 'dimDate.InvasiveDateID'
+		dataType: int64
+		formatString: 0
+		lineageTag: a70557d9-a3bb-4b6f-b5f4-c3d19783c533
+		summarizeBy: none
+		sourceColumn: dimDate.InvasiveDateID
+
+		annotation SummarizationSetBy = User
+
+	column 'Number of Dead of Trees'
+		dataType: double
+		lineageTag: 105be4cd-d032-4679-9f94-f5de2080fa3a
+		summarizeBy: sum
+		sourceColumn: Number of Dead of Trees
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition factInvasiveVegetation = m
+		mode: import
+		queryGroup: 'Invasive Vegetation'
+		source =
+				let
+				    Source = Table.Combine({#"Invasive Yoho", #"Invasive Kootenays"}),
+				    #"Merged Queries" = Table.NestedJoin(Source, {"Plot"}, dimInvasivePlot, {"Plot"}, "dimInvasivePlot", JoinKind.LeftOuter),
+				    #"Expanded dimInvasivePlot" = Table.ExpandTableColumn(#"Merged Queries", "dimInvasivePlot", {"InvasivePlotID"}, {"dimInvasivePlot.InvasivePlotID"}),
+				    #"Merged Queries1" = Table.NestedJoin(#"Expanded dimInvasivePlot", {"Species"}, dimInvasiveSpecies, {"Species"}, "dimInvasiveSpecies", JoinKind.LeftOuter),
+				    #"Expanded dimInvasiveSpecies" = Table.ExpandTableColumn(#"Merged Queries1", "dimInvasiveSpecies", {"InvasiveSpeciesID"}, {"dimInvasiveSpecies.InvasiveSpeciesID"}),
+				    #"Merged Queries2" = Table.NestedJoin(#"Expanded dimInvasiveSpecies", {"Park"}, dimInvasiveLocation, {"Park"}, "dimInvasiveLocation", JoinKind.LeftOuter),
+				    #"Expanded dimInvasiveLocation" = Table.ExpandTableColumn(#"Merged Queries2", "dimInvasiveLocation", {"InvasiveLocationID"}, {"dimInvasiveLocation.InvasiveLocationID"}),
+				    #"Merged Queries3" = Table.NestedJoin(#"Expanded dimInvasiveLocation", {"Year"}, dimInvasiveDate, {"Year"}, "dimDate", JoinKind.LeftOuter),
+				    #"Expanded dimDate" = Table.ExpandTableColumn(#"Merged Queries3", "dimDate", {"InvasiveDateID"}, {"dimDate.InvasiveDateID"}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Expanded dimDate",{"Plot", "Latitude", "Longitude", "Species", "Park", "Province", "Year"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Removed Columns",{{"Plot Area (m2)", Int64.Type}, {"Number of Trees in Plot", Int64.Type}, {"Number of Dead of Trees", Int64.Type}, {"Number of Live Trees", Int64.Type}, {"Percent of trees that are dead", type number}, {"Percent of trees that are live", type number}, {"Percent of trees that could be assessed (e.g. No uncertainty)", type number}, {"Number of Trees with blister rust cankers", Int64.Type}, {"Percent of live trees infected with blister rust (only trees confidently assessed)", type number}, {"Percent of live trees that are healthy", type number}, {"Locator ID", Int64.Type}, {"Number of Dead Trees", Int64.Type}, {"dimInvasivePlot.InvasivePlotID", Int64.Type}, {"dimInvasiveSpecies.InvasiveSpeciesID", Int64.Type}, {"dimInvasiveLocation.InvasiveLocationID", Int64.Type}, {"dimDate.InvasiveDateID", Int64.Type}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Changed Type",null,1,Replacer.ReplaceValue,{"Number of Dead of Trees"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value",null,3,Replacer.ReplaceValue,{"Number of Dead Trees"})
+				in
+				    #"Replaced Value1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

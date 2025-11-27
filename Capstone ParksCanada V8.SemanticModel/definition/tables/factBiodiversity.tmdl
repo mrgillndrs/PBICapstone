@@ -1,0 +1,239 @@
+table factBiodiversity
+	lineageTag: d6866938-dc67-4c28-bc3f-dae0dfe24833
+
+	measure 'Biodiversity Measure' = ```
+			
+			VAR TotalFish =
+			    SUM('factBiodiversity'[3 Spine Stickleback]) +
+			    SUM('factBiodiversity'[4 Spine Stickleback]) +
+			    SUM('factBiodiversity'[9 Spine Stickleback]) +
+			    SUM('factBiodiversity'[American Eel]) +
+			    SUM('factBiodiversity'[Banded Killifish]) +
+			    SUM('factBiodiversity'[Bank Swallow Nests]) +
+			    SUM('factBiodiversity'[Brook Stickleback]) +
+			    SUM('factBiodiversity'[Brook Trout]) +
+			    SUM('factBiodiversity'[Gaspereau]) +
+			    SUM('factBiodiversity'[Mummichog]) +
+			    SUM('factBiodiversity'[Odonata]) +
+			    SUM('factBiodiversity'[Rainbow Smelt]) +
+			    SUM('factBiodiversity'[Rainbow Trout]) +  
+			    SUM('factBiodiversity'[White Perch])    
+			
+			VAR p1 =
+			    DIVIDE(SUM('factBiodiversity'[3 Spine Stickleback]), TotalFish)
+			VAR p2 =
+			    DIVIDE(SUM('factBiodiversity'[4 Spine Stickleback]), TotalFish)
+			VAR p3 =
+			    DIVIDE(SUM('factBiodiversity'[9 Spine Stickleback]), TotalFish)
+			VAR p4 =
+			    DIVIDE(SUM('factBiodiversity'[American Eel]), TotalFish)
+			VAR p5 =
+			    DIVIDE(SUM('factBiodiversity'[Banded Killifish]), TotalFish)
+			VAR p6 =
+			    DIVIDE(SUM('factBiodiversity'[Bank Swallow Nests]), TotalFish)
+			VAR p7 =
+			    DIVIDE(SUM('factBiodiversity'[Brook Stickleback]), TotalFish)
+			VAR p8 =
+			    DIVIDE(SUM('factBiodiversity'[Brook Trout]), TotalFish)
+			VAR p9 =
+			    DIVIDE(SUM('factBiodiversity'[Gaspereau]), TotalFish)
+			VAR p10 =
+			    DIVIDE(SUM('factBiodiversity'[Mummichog]), TotalFish)
+			VAR p11 =
+			    DIVIDE(SUM('factBiodiversity'[Odonata]), TotalFish)
+			VAR p12 =
+			    DIVIDE(SUM('factBiodiversity'[Rainbow Smelt]), TotalFish)
+			VAR p13 =
+			    DIVIDE(SUM('factBiodiversity'[Rainbow Trout]), TotalFish) -- Added
+			VAR p14 =
+			    DIVIDE(SUM('factBiodiversity'[White Perch]), TotalFish) -- Added
+			
+			VAR DiversitySum =
+			    IF(p1 > 0, p1 * LN(p1), 0) +
+			    IF(p2 > 0, p2 * LN(p2), 0) +
+			    IF(p3 > 0, p3 * LN(p3), 0) +
+			    IF(p4 > 0, p4 * LN(p4), 0) +
+			    IF(p5 > 0, p5 * LN(p5), 0) +
+			    IF(p6 > 0, p6 * LN(p6), 0) +
+			    IF(p7 > 0, p7 * LN(p7), 0) +
+			    IF(p8 > 0, p8 * LN(p8), 0) +
+			    IF(p9 > 0, p9 * LN(p9), 0) +
+			    IF(p10 > 0, p10 * LN(p10), 0) +
+			    IF(p11 > 0, p11 * LN(p11), 0) +
+			    IF(p12 > 0, p12 * LN(p12), 0) +
+			    IF(p13 > 0, p13 * LN(p13), 0) + -- Added
+			    IF(p14 > 0, p14 * LN(p14), 0)  -- Added
+			
+			RETURN
+			    IF(TotalFish > 0, -DiversitySum, 0)
+			```
+		lineageTag: f86f615c-7532-4010-b652-33781a94ad93
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'White Perch'
+		dataType: int64
+		formatString: 0
+		lineageTag: dedfe506-766f-4150-8fa9-522d47c57db0
+		summarizeBy: sum
+		sourceColumn: White Perch
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'American Eel'
+		dataType: int64
+		formatString: 0
+		lineageTag: 76227eb4-c16f-4bf2-a2df-b39b1497bf09
+		summarizeBy: sum
+		sourceColumn: American Eel
+
+		annotation SummarizationSetBy = Automatic
+
+	column Gaspereau
+		dataType: int64
+		formatString: 0
+		lineageTag: 7095a090-98ec-4d21-ba01-dae49e11e081
+		summarizeBy: sum
+		sourceColumn: Gaspereau
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Banded Killifish'
+		dataType: int64
+		formatString: 0
+		lineageTag: 8c353b15-6444-4215-91ec-ddfec60712bd
+		summarizeBy: sum
+		sourceColumn: Banded Killifish
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mummichog
+		dataType: int64
+		formatString: 0
+		lineageTag: 733905d4-39b4-44d7-9905-a153ec8ab4c1
+		summarizeBy: sum
+		sourceColumn: Mummichog
+
+		annotation SummarizationSetBy = Automatic
+
+	column '4 Spine Stickleback'
+		dataType: int64
+		formatString: 0
+		lineageTag: ae0e8493-66a5-48e3-b3cf-a8eb852d74c5
+		summarizeBy: sum
+		sourceColumn: 4 Spine Stickleback
+
+		annotation SummarizationSetBy = Automatic
+
+	column '3 Spine Stickleback'
+		dataType: int64
+		formatString: 0
+		lineageTag: a9ca5f58-bf70-4f40-b777-d87677b79e18
+		summarizeBy: sum
+		sourceColumn: 3 Spine Stickleback
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Brook Trout'
+		dataType: int64
+		formatString: 0
+		lineageTag: 8c60068c-4469-4e02-9bcd-809acd09b5d6
+		summarizeBy: sum
+		sourceColumn: Brook Trout
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Brook Stickleback'
+		dataType: int64
+		formatString: 0
+		lineageTag: 8fcfd34e-bab7-4845-bf7d-bce44b327923
+		summarizeBy: sum
+		sourceColumn: Brook Stickleback
+
+		annotation SummarizationSetBy = Automatic
+
+	column '9 Spine Stickleback'
+		dataType: int64
+		formatString: 0
+		lineageTag: e519ab65-5c79-45a2-8613-7ae6e46a2d5f
+		summarizeBy: sum
+		sourceColumn: 9 Spine Stickleback
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Rainbow Smelt'
+		dataType: int64
+		formatString: 0
+		lineageTag: 7f00e4df-0834-46f2-92a8-4626f6432929
+		summarizeBy: sum
+		sourceColumn: Rainbow Smelt
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Rainbow Trout'
+		dataType: int64
+		formatString: 0
+		lineageTag: cba587d6-9779-48a9-95e5-674cbb108e0c
+		summarizeBy: sum
+		sourceColumn: Rainbow Trout
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Bank Swallow Nests'
+		dataType: int64
+		formatString: 0
+		lineageTag: 8974d323-d548-4d54-87f2-f427d11eb986
+		summarizeBy: sum
+		sourceColumn: Bank Swallow Nests
+
+		annotation SummarizationSetBy = Automatic
+
+	column Odonata
+		dataType: int64
+		formatString: 0
+		lineageTag: 937facdf-f45a-4e1f-9a84-13bc226da352
+		summarizeBy: sum
+		sourceColumn: Odonata
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'dimBioLocation.BioLocationID'
+		dataType: int64
+		formatString: 0
+		lineageTag: cb3630c2-ad25-4848-aa90-f590d055c1fe
+		summarizeBy: none
+		sourceColumn: dimBioLocation.BioLocationID
+
+		annotation SummarizationSetBy = User
+
+	column 'dimBioDate.BioDateID'
+		dataType: int64
+		formatString: 0
+		lineageTag: 914f4d9f-2f32-48d9-8d05-512f0b555768
+		summarizeBy: none
+		sourceColumn: dimBioDate.BioDateID
+
+		annotation SummarizationSetBy = User
+
+	partition factBiodiversity = m
+		mode: import
+		queryGroup: Biodiversity
+		source =
+				let
+				    Source = Table.Combine({#"PEI Fish Data", #"PEI Bank Swallows", #"PEI Wetland Odonata"}),
+				    #"Merged Queries" = Table.NestedJoin(Source, {"Location"}, dimBioLocation, {"Location"}, "dimBioLocation", JoinKind.LeftOuter),
+				    #"Expanded dimBioLocation" = Table.ExpandTableColumn(#"Merged Queries", "dimBioLocation", {"BioLocationID"}, {"dimBioLocation.BioLocationID"}),
+				    #"Added Custom" = Table.AddColumn(#"Expanded dimBioLocation", "BioDate", each Date.FromText(Text.From([Year]) & "-" & Text.PadStart(Text.From([Month]), 2, "0") & "-" & Text.PadStart(Text.From([Day]), 2, "0"))),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Added Custom",{{"BioDate", type date}}),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Changed Type",{"Location", "Year", "Month", "BioDate", "Day", "White Perch", "American Eel", "Gaspereau", "Banded Killifish", "Mummichog", "4 Spine Stickleback", "3 Spine Stickleback", "Brook Trout", "Brook Stickleback", "9 Spine Stickleback", "Rainbow Smelt", "Rainbow Trout", "Bank Swallow Nests", "Odonata", "dimBioLocation.BioLocationID"}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Reordered Columns",{"Year", "Month", "Day"}),
+				    #"Merged Queries1" = Table.NestedJoin(#"Removed Columns", {"BioDate"}, dimBioDate, {"BioDate"}, "dimBioDate", JoinKind.LeftOuter),
+				    #"Expanded dimBioDate" = Table.ExpandTableColumn(#"Merged Queries1", "dimBioDate", {"BioDateID"}, {"dimBioDate.BioDateID"}),
+				    #"Removed Columns1" = Table.RemoveColumns(#"Expanded dimBioDate",{"Location", "BioDate"})
+				in
+				    #"Removed Columns1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

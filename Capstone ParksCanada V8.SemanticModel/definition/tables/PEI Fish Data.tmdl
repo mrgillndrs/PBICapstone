@@ -1,0 +1,219 @@
+table 'PEI Fish Data'
+	isHidden
+	lineageTag: 9931ae49-c96a-4dc8-96a4-fecf58fb57a4
+
+	column Location
+		dataType: string
+		isHidden
+		lineageTag: 8917d4d8-e092-496e-bfc2-80662155a185
+		summarizeBy: none
+		sourceColumn: Location
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 71a0e91f-bf18-45f0-9f49-a657ddbd65b0
+		summarizeBy: sum
+		sourceColumn: Year
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Day
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: eb8bb7ba-cbb9-4349-bda5-34acda9fcd7e
+		summarizeBy: sum
+		sourceColumn: Day
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'White Perch'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 431206fe-c9b2-447b-98ac-c2a9efbe2b08
+		summarizeBy: sum
+		sourceColumn: White Perch
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'American Eel'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: e7196f8e-f2cf-48b2-bd00-cb891ea32677
+		summarizeBy: sum
+		sourceColumn: American Eel
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Gaspereau
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 821cecd0-530d-47e8-b916-cd52e96bfbf1
+		summarizeBy: sum
+		sourceColumn: Gaspereau
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Banded Killifish'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 04078f78-1a4d-4035-8852-7893c3c525de
+		summarizeBy: sum
+		sourceColumn: Banded Killifish
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mummichog
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 87c60463-4139-4ff8-a31d-ceb3cc880094
+		summarizeBy: sum
+		sourceColumn: Mummichog
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column '4 Spine Stickleback'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 5b5d1d90-40aa-4fb1-98c9-b13247ead98e
+		summarizeBy: sum
+		sourceColumn: 4 Spine Stickleback
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column '3 Spine Stickleback'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 5f0d86b8-55ea-46fd-ac70-86d049cad2d5
+		summarizeBy: sum
+		sourceColumn: 3 Spine Stickleback
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Brook Trout'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 05819b13-df9b-4ab7-8402-03005daf8abc
+		summarizeBy: sum
+		sourceColumn: Brook Trout
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Brook Stickleback'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 3bdddedd-61e2-4b4b-b75e-2ec57a187d94
+		summarizeBy: sum
+		sourceColumn: Brook Stickleback
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column '9 Spine Stickleback'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: b706d7e6-4fba-4a42-94a7-accee2db41ae
+		summarizeBy: sum
+		sourceColumn: 9 Spine Stickleback
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Rainbow Smelt'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c8a439d5-327b-4181-ad6c-98ecd8ed3bdd
+		summarizeBy: sum
+		sourceColumn: Rainbow Smelt
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Rainbow Trout'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: efdffda9-fc14-49e5-a16e-974fbd665e3c
+		summarizeBy: sum
+		sourceColumn: Rainbow Trout
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 03937b99-0fe7-4425-82ad-f107f0c8cf12
+		summarizeBy: sum
+		sourceColumn: Month
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'PEI Fish Data' = m
+		mode: import
+		queryGroup: 'Base Table Data'
+		source =
+				let
+				    Source = Csv.Document(Web.Contents("https://mysait.sharepoint.com/sites/BSNCapstone200/Shared%20Documents/General/Capstone%20Datasets/PEI%20Fish%20Data.csv"),[Delimiter=",", Columns=20, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Location", type text}, {"Year", Int64.Type}, {"Latitude", type number}, {"Longitude", type number}, {"Month In", type text}, {"Day In", Int64.Type}, {"White Perch", Int64.Type}, {"American Eel", Int64.Type}, {"Gaspereau", Int64.Type}, {"Banded Killifish", Int64.Type}, {"Mummichog", Int64.Type}, {"4 Spine Stickleback", Int64.Type}, {"3 Spine Stickleback", Int64.Type}, {"Brook Trout", Int64.Type}, {"Brook Stickleback", Int64.Type}, {"9 Spine Stickleback", Int64.Type}, {"Rainbow Smelt", Int64.Type}, {"Rainbow Trout", Int64.Type}, {"New Longitude", type number}, {"Month as a Number", Int64.Type}}),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Changed Type",{"Location", "Year", "Latitude", "New Longitude", "Longitude", "Month In", "Day In", "White Perch", "Month as a Number", "American Eel", "Gaspereau", "Banded Killifish", "Mummichog", "4 Spine Stickleback", "3 Spine Stickleback", "Brook Trout", "Brook Stickleback", "9 Spine Stickleback", "Rainbow Smelt", "Rainbow Trout"}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Reordered Columns",{"Longitude"}),
+				    #"Reordered Columns1" = Table.ReorderColumns(#"Removed Columns",{"Location", "Year", "Latitude", "New Longitude", "Month as a Number", "Month In", "Day In", "White Perch", "American Eel", "Gaspereau", "Banded Killifish", "Mummichog", "4 Spine Stickleback", "3 Spine Stickleback", "Brook Trout", "Brook Stickleback", "9 Spine Stickleback", "Rainbow Smelt", "Rainbow Trout"}),
+				    #"Removed Columns1" = Table.RemoveColumns(#"Reordered Columns1",{"Month In"}),
+				    #"Reordered Columns2" = Table.ReorderColumns(#"Removed Columns1",{"Location", "Latitude", "New Longitude", "Year", "Month as a Number", "Day In", "White Perch", "American Eel", "Gaspereau", "Banded Killifish", "Mummichog", "4 Spine Stickleback", "3 Spine Stickleback", "Brook Trout", "Brook Stickleback", "9 Spine Stickleback", "Rainbow Smelt", "Rainbow Trout"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Reordered Columns2",{{"Day In", "Day"}, {"Month as a Number", "Month"}}),
+				    #"Removed Columns2" = Table.RemoveColumns(#"Renamed Columns",{"Latitude", "New Longitude"})
+				in
+				    #"Removed Columns2"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

@@ -1,0 +1,74 @@
+cultureInfo en-US
+
+	linguisticMetadata =
+			{
+			  "Version": "2.0.0",
+			  "Language": "en-US",
+			  "Entities": {
+			    "factpeipurpleloostrife.total_removed_measure": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "factPEIPurpleLoostrife",
+			          "ConceptualProperty": "Total Removed Measure"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Total Removed": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "factpeipurpleloostrife.total_stems_measure": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "factPEIPurpleLoostrife",
+			          "ConceptualProperty": "Total Stems Measure"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Total Stems": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dimloostrifedate.year": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dimLoostrifeDate",
+			          "ConceptualProperty": "Year"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Year Range": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    }
+			  }
+			}
+		contentType: json
+

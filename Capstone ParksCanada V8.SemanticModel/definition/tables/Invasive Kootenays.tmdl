@@ -1,0 +1,253 @@
+table 'Invasive Kootenays'
+	isHidden
+	lineageTag: c6b01d11-2d66-461f-9b2c-abd28cfcb17b
+
+	column Park
+		dataType: string
+		isHidden
+		lineageTag: afc1a250-8114-4c53-800b-f1dab6eb339f
+		summarizeBy: none
+		sourceColumn: Park
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 7af42f0c-6d1b-43ec-963f-98ff40dadadf
+		summarizeBy: sum
+		sourceColumn: Year
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Plot
+		dataType: string
+		isHidden
+		lineageTag: 1a49dc69-faa5-45b9-acb0-7c619661b5be
+		summarizeBy: none
+		sourceColumn: Plot
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Species
+		dataType: string
+		isHidden
+		lineageTag: 2971c854-ed54-4f01-aa05-dc60374c75fd
+		summarizeBy: none
+		sourceColumn: Species
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Latitude
+		dataType: double
+		isHidden
+		lineageTag: 527cec07-e0aa-447a-a96c-3a23f7a0c1ea
+		dataCategory: Latitude
+		summarizeBy: none
+		sourceColumn: Latitude
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Longitude
+		dataType: double
+		isHidden
+		lineageTag: 646fd633-8c9f-4182-bbc2-535e0f75d4db
+		summarizeBy: sum
+		sourceColumn: Longitude
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Province
+		dataType: string
+		isHidden
+		lineageTag: fc7bd435-0558-4594-9c17-fb4c35a7e58d
+		summarizeBy: none
+		sourceColumn: Province
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Plot Area (m2)'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 81322d3e-daae-4bdf-9f50-83c123d58224
+		summarizeBy: sum
+		sourceColumn: Plot Area (m2)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Number of Trees in Plot'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 0ac22432-634d-4aba-8208-7a25fb6c7d5d
+		summarizeBy: sum
+		sourceColumn: Number of Trees in Plot
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Number of Dead Trees'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 8ed264eb-97a6-4999-8fbd-faf3df79035e
+		summarizeBy: sum
+		sourceColumn: Number of Dead Trees
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Number of Live Trees'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 4389e83f-aadb-4684-9872-976f1ec8f065
+		summarizeBy: sum
+		sourceColumn: Number of Live Trees
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Percent of trees that are dead'
+		dataType: double
+		isHidden
+		lineageTag: b3aef49d-8dd5-43c8-ae7b-8717768d8620
+		summarizeBy: sum
+		sourceColumn: Percent of trees that are dead
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Percent of trees that are live'
+		dataType: double
+		isHidden
+		lineageTag: 8ee667a7-c324-43db-946b-efcaf0a16b41
+		summarizeBy: sum
+		sourceColumn: Percent of trees that are live
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Percent of trees that could be assessed (e.g. No uncertainty)'
+		dataType: double
+		isHidden
+		lineageTag: 2c5e9598-7aa9-43e4-a85c-2107f614a810
+		summarizeBy: sum
+		sourceColumn: Percent of trees that could be assessed (e.g. No uncertainty)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Number of Trees with blister rust cankers'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 371371f2-9526-4b33-8991-e31ac7c887b3
+		summarizeBy: sum
+		sourceColumn: Number of Trees with blister rust cankers
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Percent of live trees infected with blister rust (only trees confidently assessed)'
+		dataType: double
+		isHidden
+		lineageTag: d5edc1b8-0a62-4178-b243-2ac739b479af
+		summarizeBy: sum
+		sourceColumn: Percent of live trees infected with blister rust (only trees confidently assessed)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Percent of live trees that are healthy'
+		dataType: double
+		isHidden
+		lineageTag: 74d053e8-f533-4333-9993-ac50b5cc0fbd
+		summarizeBy: sum
+		sourceColumn: Percent of live trees that are healthy
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Locator ID'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 5c10610a-9781-44a7-b44b-65eff68d4c2c
+		summarizeBy: count
+		sourceColumn: Locator ID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Invasive Kootenays' = m
+		mode: import
+		queryGroup: 'Base Table Data'
+		source =
+				let
+				    Source = Csv.Document(Web.Contents("https://mysait.sharepoint.com/sites/BSNCapstone200/Shared%20Documents/General/Capstone%20Datasets/blister_rust_kootenay_data.csv"),[Delimiter=",", Columns=18, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Park", type text}, {"Year", Int64.Type}, {"Plot", type text}, {"Species", type text}, {"Latitude", type number}, {"Longitude", type number}, {"Province", type text}, {"Plot area (m2)", Int64.Type}, {"Number of Trees in Plot", Int64.Type}, {"Number of Dead Trees", Int64.Type}, {"Number of Live Trees", Int64.Type}, {"Percent of trees that are dead", Percentage.Type}, {"Percent of trees that are live", Percentage.Type}, {"Percent of trees that could be assessed (e.g. No uncertainty)", Percentage.Type}, {"Number of Trees with blister rust cankers", Int64.Type}, {"Percent of live trees infected with blister rust (only trees confidently assessed)", Percentage.Type}, {"Percent of live trees that are healthy", Percentage.Type}, {"Locator ID", Int64.Type}}),
+				    #"Demoted Headers" = Table.DemoteHeaders(#"Changed Type"),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Demoted Headers",{{"Column1", type text}, {"Column2", type any}, {"Column3", type text}, {"Column4", type text}, {"Column5", type any}, {"Column6", type any}, {"Column7", type text}, {"Column8", type any}, {"Column9", type any}, {"Column10", type any}, {"Column11", type any}, {"Column12", type any}, {"Column13", type any}, {"Column14", type any}, {"Column15", type any}, {"Column16", type any}, {"Column17", type any}, {"Column18", type any}}),
+				    #"Demoted Headers1" = Table.DemoteHeaders(#"Changed Type1"),
+				    #"Changed Type2" = Table.TransformColumnTypes(#"Demoted Headers1",{{"Column1", type text}, {"Column2", type any}, {"Column3", type text}, {"Column4", type text}, {"Column5", type any}, {"Column6", type any}, {"Column7", type text}, {"Column8", type any}, {"Column9", type any}, {"Column10", type any}, {"Column11", type any}, {"Column12", type any}, {"Column13", type any}, {"Column14", type any}, {"Column15", type any}, {"Column16", type any}, {"Column17", type any}, {"Column18", type any}}),
+				    #"Trimmed Text" = Table.TransformColumns(Table.TransformColumnTypes(#"Changed Type2", {{"Column2", type text}, {"Column5", type text}, {"Column6", type text}, {"Column8", type text}, {"Column9", type text}, {"Column10", type text}, {"Column11", type text}, {"Column12", type text}, {"Column13", type text}, {"Column14", type text}, {"Column15", type text}, {"Column16", type text}, {"Column17", type text}, {"Column18", type text}}, "en-US"),{{"Column1", Text.Trim, type text}, {"Column2", Text.Trim, type text}, {"Column3", Text.Trim, type text}, {"Column4", Text.Trim, type text}, {"Column5", Text.Trim, type text}, {"Column6", Text.Trim, type text}, {"Column7", Text.Trim, type text}, {"Column8", Text.Trim, type text}, {"Column9", Text.Trim, type text}, {"Column10", Text.Trim, type text}, {"Column11", Text.Trim, type text}, {"Column12", Text.Trim, type text}, {"Column13", Text.Trim, type text}, {"Column14", Text.Trim, type text}, {"Column15", Text.Trim, type text}, {"Column16", Text.Trim, type text}, {"Column17", Text.Trim, type text}, {"Column18", Text.Trim, type text}}),
+				    #"Cleaned Text" = Table.TransformColumns(#"Trimmed Text",{{"Column1", Text.Clean, type text}, {"Column2", Text.Clean, type text}, {"Column3", Text.Clean, type text}, {"Column4", Text.Clean, type text}, {"Column5", Text.Clean, type text}, {"Column6", Text.Clean, type text}, {"Column7", Text.Clean, type text}, {"Column8", Text.Clean, type text}, {"Column9", Text.Clean, type text}, {"Column10", Text.Clean, type text}, {"Column11", Text.Clean, type text}, {"Column12", Text.Clean, type text}, {"Column13", Text.Clean, type text}, {"Column14", Text.Clean, type text}, {"Column15", Text.Clean, type text}, {"Column16", Text.Clean, type text}, {"Column17", Text.Clean, type text}, {"Column18", Text.Clean, type text}}),
+				    #"Promoted Headers1" = Table.PromoteHeaders(#"Cleaned Text", [PromoteAllScalars=true]),
+				    #"Changed Type3" = Table.TransformColumnTypes(#"Promoted Headers1",{{"Column1", type text}, {"Column2", type text}, {"Column3", type text}, {"Column4", type text}, {"Column5", type text}, {"Column6", type text}, {"Column7", type text}, {"Column8", type text}, {"Column9", type text}, {"Column10", type text}, {"Column11", type text}, {"Column12", type text}, {"Column13", type text}, {"Column14", type text}, {"Column15", type text}, {"Column16", type text}, {"Column17", type text}, {"Column18", type text}}),
+				    #"Promoted Headers2" = Table.PromoteHeaders(#"Changed Type3", [PromoteAllScalars=true]),
+				    #"Changed Type4" = Table.TransformColumnTypes(#"Promoted Headers2",{{"Park", type text}, {"Year", Int64.Type}, {"Plot", type text}, {"Species", type text}, {"Latitude", type number}, {"Longitude", type number}, {"Province", type text}, {"Plot area (m2)", Int64.Type}, {"Number of Trees in Plot", Int64.Type}, {"Number of Dead Trees", Int64.Type}, {"Number of Live Trees", Int64.Type}, {"Percent of trees that are dead", type number}, {"Percent of trees that are live", type number}, {"Percent of trees that could be assessed (e.g. No uncertainty)", type number}, {"Number of Trees with blister rust cankers", Int64.Type}, {"Percent of live trees infected with blister rust (only trees confidently assessed)", type number}, {"Percent of live trees that are healthy", type number}, {"Locator ID", Int64.Type}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type4",{{"Plot area (m2)", "Plot Area (m2)"}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Renamed Columns","Kootenays National Park","Kootenay National Park",Replacer.ReplaceText,{"Park"})
+				in
+				    #"Replaced Value"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

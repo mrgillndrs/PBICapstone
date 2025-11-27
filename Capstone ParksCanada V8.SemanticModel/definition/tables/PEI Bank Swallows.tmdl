@@ -1,0 +1,83 @@
+table 'PEI Bank Swallows'
+	isHidden
+	lineageTag: 46a79720-bd7c-4338-87bc-3f2836e4e0fc
+
+	column Location
+		dataType: string
+		isHidden
+		lineageTag: a022c620-f6ca-4bec-bb93-f50ed17db563
+		summarizeBy: none
+		sourceColumn: Location
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: cc012b7d-3d2d-413e-9699-359faabbcc03
+		summarizeBy: sum
+		sourceColumn: Year
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Day
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 6101773d-5950-4beb-a0ff-258aa4d069e2
+		summarizeBy: sum
+		sourceColumn: Day
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Bank Swallow Nests'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 22936129-a638-4c97-82f1-8077f5d05b74
+		summarizeBy: sum
+		sourceColumn: Bank Swallow Nests
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: b34eaabb-1256-4ebe-b1e9-3026b7a3673b
+		summarizeBy: sum
+		sourceColumn: Month
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'PEI Bank Swallows' = m
+		mode: import
+		queryGroup: 'Base Table Data'
+		source =
+				let
+				    Source = Csv.Document(Web.Contents("https://mysait.sharepoint.com/sites/BSNCapstone200/Shared%20Documents/General/Capstone%20Datasets/PEI%20Bank%20Swallows.csv"),[Delimiter=",", Columns=6, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Park Area", type text}, {"Year", Int64.Type}, {"Month", type text}, {"Day", Int64.Type}, {"Nest Count", Int64.Type}, {"Month as a Number", Int64.Type}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Month"}),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Removed Columns",{"Park Area", "Year", "Month as a Number", "Day", "Nest Count"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Reordered Columns",{{"Park Area", "Location"}, {"Month as a Number", "Month"}, {"Nest Count", "Bank Swallow Nests"}})
+				in
+				    #"Renamed Columns"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

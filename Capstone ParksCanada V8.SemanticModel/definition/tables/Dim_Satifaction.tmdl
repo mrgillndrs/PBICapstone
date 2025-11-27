@@ -1,0 +1,46 @@
+table Dim_Satifaction
+	lineageTag: a81345ba-e123-4911-ba56-3af02cf807f6
+
+	measure 'Target Satifaction' = 0.78
+		lineageTag: 7cf279fd-3480-417f-aa06-6ec9bbf32c66
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Satisfaction
+		dataType: double
+		lineageTag: 6459782c-df5d-49f2-9a65-059756a9ea76
+		summarizeBy: sum
+		sourceColumn: Satisfaction
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Fact_visitor_flow.Fact_visitor_flow_ID'
+		dataType: int64
+		formatString: 0
+		lineageTag: dfb144c2-91a1-4a14-9264-fae7098c66a5
+		summarizeBy: none
+		sourceColumn: Fact_visitor_flow.Fact_visitor_flow_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_Satifaction = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Web.Contents("https://mysait.sharepoint.com/sites/BSNCapstone200/Shared%20Documents/General/Capstone%20Datasets/banff_dashboard_updated_data.csv"),[Delimiter=",", Columns=5, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Renamed Columns" = Table.RenameColumns(#"Promoted Headers",{{"NPS", "Satisfaction"}}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns",{{"Satisfaction", Percentage.Type}}),
+				    #"Divided Column" = Table.TransformColumns(#"Changed Type", {{"Satisfaction", each _ / 100, Percentage.Type}}),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Divided Column",{"Satisfaction"}),
+				    #"Merged Queries" = Table.NestedJoin(#"Removed Other Columns", {"Satisfaction"}, Fact_visitor_flow, {"Satisfaction"}, "Fact_visitor_flow", JoinKind.LeftOuter),
+				    #"Expanded Fact_visitor_flow" = Table.ExpandTableColumn(#"Merged Queries", "Fact_visitor_flow", {"Fact_visitor_flow_ID"}, {"Fact_visitor_flow.Fact_visitor_flow_ID"})
+				in
+				    #"Expanded Fact_visitor_flow"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

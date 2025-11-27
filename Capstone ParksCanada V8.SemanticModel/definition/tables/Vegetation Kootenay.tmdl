@@ -1,0 +1,153 @@
+table 'Vegetation Kootenay'
+	isHidden
+	lineageTag: a000ac62-5cfe-4ab7-aaed-50ef883b9a3e
+
+	column 'Plot Identification'
+		dataType: string
+		isHidden
+		lineageTag: 1e1cfb4a-9028-46bb-b02b-260e4c91133e
+		summarizeBy: none
+		sourceColumn: Plot Identification
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: string
+		isHidden
+		lineageTag: d0442568-4a9e-45b1-89ea-7b886f79cad1
+		summarizeBy: none
+		sourceColumn: Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Park Name'
+		dataType: string
+		isHidden
+		lineageTag: 9f20765e-a60d-41d7-b8e8-8133b953b120
+		summarizeBy: none
+		sourceColumn: Park Name
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Trail Name'
+		dataType: string
+		isHidden
+		lineageTag: 4973eae6-8cf0-405a-af69-c9db0f76867f
+		summarizeBy: none
+		sourceColumn: Trail Name
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Species Present in Area'
+		dataType: string
+		isHidden
+		lineageTag: 5d116799-8aa8-4866-b97a-8d0b8ce42439
+		summarizeBy: none
+		sourceColumn: Species Present in Area
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Total Cover Along transect'
+		dataType: double
+		isHidden
+		lineageTag: 37ff0e66-391e-4ff2-926d-0708bd8fee7e
+		summarizeBy: sum
+		sourceColumn: Total Cover Along transect
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Percent Cover Per Species (%)'
+		dataType: double
+		isHidden
+		lineageTag: c5cf7448-e85c-4f4e-95de-bb444ae59b08
+		summarizeBy: sum
+		sourceColumn: Percent Cover Per Species (%)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Distance_Between_Transects_in_Metres
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 29088453-cfc1-4e9c-be66-44e39416ac38
+		summarizeBy: sum
+		sourceColumn: Distance_Between_Transects_in_Metres
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Location ID'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 703ce924-1972-48e7-8bb9-04e24e7dabdc
+		summarizeBy: count
+		sourceColumn: Location ID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Latitude
+		dataType: double
+		isHidden
+		lineageTag: 8a85c598-90c1-4c8e-9a46-a4f0b6518a10
+		summarizeBy: sum
+		sourceColumn: Latitude
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Longitude
+		dataType: double
+		isHidden
+		lineageTag: cd94de52-0ff1-4f49-a6ed-b4c6ffa6de9e
+		summarizeBy: sum
+		sourceColumn: Longitude
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'Vegetation Kootenay' = m
+		mode: import
+		queryGroup: 'Base Table Data'
+		source =
+				let
+				    Source = Csv.Document(Web.Contents("https://mysait.sharepoint.com/sites/BSNCapstone200/Shared%20Documents/General/Capstone%20Datasets/vegetation_kootenay.csv"),[Delimiter=",", Columns=11, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Plot ID", type text}, {"Date", type text}, {"Park Name", type text}, {"Trail", type text}, {"Species Present", type text}, {"Total Cover Along Transect", Percentage.Type}, {"Percent Cover Per Species", Percentage.Type}, {"Distance Between Transects", Int64.Type}, {"Location ID", Int64.Type}, {"Latitude", type number}, {"Longitude", type number}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"Plot ID", "Plot Identification"}, {"Trail", "Trail Name"}, {"Species Present", "Species Present in Area"}, {"Total Cover Along Transect", "Total Cover Along transect"}, {"Percent Cover Per Species", "Percent Cover Per Species (%)"}, {"Distance Between Transects", "Distance_Between_Transects_in_Metres"}})
+				in
+				    #"Renamed Columns"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

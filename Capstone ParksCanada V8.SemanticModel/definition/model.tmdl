@@ -1,0 +1,107 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	discourageImplicitMeasures
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		fastCombine
+		legacyRedirects
+		returnErrorValuesAsNull
+
+/// Errors in queries that were loaded on 4/10/2025 1:36:28 PM.
+queryGroup 'Query Errors - 4/10/2025 1:36:28 PM'
+
+	annotation PBI_QueryGroupOrder = 0
+
+/// Errors in queries that were loaded on 4/10/2025 2:44:36 PM.
+queryGroup 'Query Errors - 4/10/2025 2:44:36 PM'
+
+	annotation PBI_QueryGroupOrder = 1
+
+/// Errors in queries that were loaded on 4/10/2025 10:15:32 PM.
+queryGroup 'Query Errors - 4/10/2025 10:15:32 PM'
+
+	annotation PBI_QueryGroupOrder = 2
+
+queryGroup Conservation
+
+	annotation PBI_QueryGroupOrder = 5
+
+queryGroup Biodiversity
+
+	annotation PBI_QueryGroupOrder = 6
+
+queryGroup 'Base Table Data'
+
+	annotation PBI_QueryGroupOrder = 11
+
+queryGroup PEILoostrife
+
+	annotation PBI_QueryGroupOrder = 7
+
+queryGroup 'Invasive Vegetation'
+
+	annotation PBI_QueryGroupOrder = 8
+
+queryGroup 'Healthy Vegetation'
+
+	annotation PBI_QueryGroupOrder = 10
+
+/// Errors in queries that were loaded on 4/10/2025 10:25:36 PM.
+queryGroup 'Query Errors - 4/10/2025 10:25:36 PM'
+
+	annotation PBI_QueryGroupOrder = 11
+
+/// Errors in queries that were loaded on 2025-04-14 1:51:57 PM.
+queryGroup 'Query Errors - 2025-04-14 1:51:57 PM'
+
+	annotation PBI_QueryGroupOrder = 10
+
+annotation PBI_QueryOrder = ["factConservationByCountry","factGlobalConservationTargets","factConservedAreaByYear","factBiodiversity","dimBioDate","dimBioLocation","PEI Bank Swallows","PEI Fish Data","PEI Wetland Odonata","Errors in PEI Wetland Odonata","Invasive Yoho","Invasive Kootenays","factPEIPurpleLoostrife","Vegetation Yoho","Vegetation Kootenay","Errors in PEI Wetland Odonata (2)","factInvasiveVegetation","dimInvasivePlot","dimInvasiveSpecies","dimInvasiveLocation","dimInvasiveDate","factHealthyVegetation","dimHealthyPlot","dimHealthySpecies","dimHealthyLocation","dimHealthyDate","dimLoostrifeLocation","dimLoostrifeDate","Errors in factBiodiversity","Errors in factBiodiversity (2)","Fact_visitor_flow","Dim_Date","Dim_Monthly_Visitors","Dim_Parking_Capacity","Dim_Parking_Saturation_Rate","Dim_Satifaction","alpine_blister_rust_yoho_data","Errors in factBiodiversity (3)","Errors in PEI Wetland Odonata (3)"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBIDesktopVersion = 2.140.1577.0 (25.02)+00af0910c5ca19a229c472b0dfc17a2c488f6b0a
+
+annotation PBI_ProTooling = ["WebModelingEdit","CalcGroup","DevMode"]
+
+ref table factConservationByCountry
+ref table factGlobalConservationTargets
+ref table 'PEI Bank Swallows'
+ref table 'PEI Fish Data'
+ref table 'PEI Wetland Odonata'
+ref table factConservedAreaByYear
+ref table 'Invasive Yoho'
+ref table 'Invasive Kootenays'
+ref table factPEIPurpleLoostrife
+ref table 'Vegetation Yoho'
+ref table 'Vegetation Kootenay'
+ref table factInvasiveVegetation
+ref table dimInvasivePlot
+ref table dimInvasiveSpecies
+ref table dimInvasiveLocation
+ref table dimInvasiveDate
+ref table factHealthyVegetation
+ref table dimHealthyPlot
+ref table dimHealthySpecies
+ref table dimHealthyLocation
+ref table dimHealthyDate
+ref table dimLoostrifeLocation
+ref table dimLoostrifeDate
+ref table factBiodiversity
+ref table DateTableTemplate_a768dabf-9401-4aa5-8c82-01a95cf83958
+ref table dimBioDate
+ref table LocalDateTable_57c80b43-9ed6-424f-8c37-512fb24b6e36
+ref table dimBioLocation
+ref table Fact_visitor_flow
+ref table Dim_Date
+ref table Dim_Monthly_Visitors
+ref table Dim_Parking_Capacity
+ref table Dim_Parking_Saturation_Rate
+ref table Dim_Satifaction
+ref table alpine_blister_rust_yoho_data
+ref table LocalDateTable_371e9064-1813-46fb-b2fd-d010fac5730a
+ref table Parameter
+
+ref cultureInfo en-US
+

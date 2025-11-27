@@ -1,0 +1,86 @@
+table 'PEI Wetland Odonata'
+	isHidden
+	lineageTag: 61c5fbcd-0db4-40a7-b272-507f341f54b2
+
+	column Odonata
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: a5709f09-834d-4963-a13f-27f335045f3b
+		summarizeBy: sum
+		sourceColumn: Odonata
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 31e76d00-0aa5-4a4e-8e56-4ab0c4b077a0
+		summarizeBy: sum
+		sourceColumn: Year
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Day
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 41c3c5d1-2e2b-4855-b03e-92945b0eeb7c
+		summarizeBy: sum
+		sourceColumn: Day
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Location
+		dataType: string
+		isHidden
+		lineageTag: 067f168b-0fb6-4029-8e3a-049bc2c70c02
+		summarizeBy: none
+		sourceColumn: Location
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 27b8004e-e6b4-4f40-9329-2bd03fa6d66c
+		summarizeBy: sum
+		sourceColumn: Month
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'PEI Wetland Odonata' = m
+		mode: import
+		queryGroup: 'Base Table Data'
+		source =
+				let
+				    Source = Csv.Document(Web.Contents("https://mysait.sharepoint.com/sites/BSNCapstone200/Shared%20Documents/General/Capstone%20Datasets/PEI%20Wetland%20Odonata.csv"),[Delimiter=",", Columns=7, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Common name", type text}, {"Count", Int64.Type}, {"Year", Int64.Type}, {"Month", type text}, {"Day", Int64.Type}, {"Location", type text}, {"Month as a number", Int64.Type}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Month"}),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Removed Columns",{"Common name", "Count", "Year", "Month as a number", "Day", "Location"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Reordered Columns",{{"Month as a number", "Month"}}),
+				    #"Reordered Columns1" = Table.ReorderColumns(#"Renamed Columns",{"Location", "Common name", "Year", "Month", "Day", "Count"}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Reordered Columns1",{{"Count", "Odonata"}}),
+				    #"Removed Columns1" = Table.RemoveColumns(#"Renamed Columns1",{"Common name"})
+				in
+				    #"Removed Columns1"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

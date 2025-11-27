@@ -1,0 +1,144 @@
+expression 'Errors in PEI Wetland Odonata' =
+		let
+		Source = #"PEI Wetland Odonata",
+		  #"Detected Type Mismatches" = let
+		    tableWithOnlyPrimitiveTypes = Table.SelectColumns(Source, Table.ColumnsOfType(Source, {type nullable number, type nullable text, type nullable logical, type nullable date, type nullable datetime, type nullable datetimezone, type nullable time, type nullable duration})),
+		    recordTypeFields = Type.RecordFields(Type.TableRow(Value.Type(tableWithOnlyPrimitiveTypes))),
+		    fieldNames = Record.FieldNames(recordTypeFields),
+		    fieldTypes = List.Transform(Record.ToList(recordTypeFields), each [Type]),
+		    pairs = List.Transform(List.Positions(fieldNames), (i) => {fieldNames{i}, (v) => if v = null or Value.Is(v, fieldTypes{i}) then v else error [Message = "The type of the value does not match the type of the column.", Detail = v], fieldTypes{i}})
+		in
+		    Table.TransformColumns(Source, pairs),
+		  #"Added Index" = Table.AddIndexColumn(#"Detected Type Mismatches", "Row Number" ,1),
+		  #"Kept Errors" = Table.SelectRowsWithErrors(#"Added Index", {"Common name", "Count", "Year", "Month", "Day", "Location", "Month as a number"}),
+		  #"Reordered Columns" = Table.ReorderColumns(#"Kept Errors", {"Row Number", "Common name", "Count", "Year", "Month", "Day", "Location", "Month as a number"}),
+		    #"Removed Errors" = Table.RemoveRowsWithErrors(#"Reordered Columns", {"Row Number"})
+		in
+		  #"Removed Errors"
+	lineageTag: 48475df4-77f8-44a3-914e-01c9cc0dea92
+	queryGroup: 'Query Errors - 4/10/2025 1:36:28 PM'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'Errors in PEI Wetland Odonata (2)' =
+		let
+		Source = #"PEI Wetland Odonata",
+		  #"Detected Type Mismatches" = let
+		    tableWithOnlyPrimitiveTypes = Table.SelectColumns(Source, Table.ColumnsOfType(Source, {type nullable number, type nullable text, type nullable logical, type nullable date, type nullable datetime, type nullable datetimezone, type nullable time, type nullable duration})),
+		    recordTypeFields = Type.RecordFields(Type.TableRow(Value.Type(tableWithOnlyPrimitiveTypes))),
+		    fieldNames = Record.FieldNames(recordTypeFields),
+		    fieldTypes = List.Transform(Record.ToList(recordTypeFields), each [Type]),
+		    pairs = List.Transform(List.Positions(fieldNames), (i) => {fieldNames{i}, (v) => if v = null or Value.Is(v, fieldTypes{i}) then v else error [Message = "The type of the value does not match the type of the column.", Detail = v], fieldTypes{i}})
+		in
+		    Table.TransformColumns(Source, pairs),
+		  #"Added Index" = Table.AddIndexColumn(#"Detected Type Mismatches", "Row Number" ,1),
+		  #"Kept Errors" = Table.SelectRowsWithErrors(#"Added Index", {"Common name", "Count", "Year", "Month", "Day", "Location", "Month as a number"}),
+		  #"Reordered Columns" = Table.ReorderColumns(#"Kept Errors", {"Row Number", "Common name", "Count", "Year", "Month", "Day", "Location", "Month as a number"}),
+		    #"Removed Errors" = Table.RemoveRowsWithErrors(#"Reordered Columns", {"Row Number"})
+		in
+		  #"Removed Errors"
+	lineageTag: f21c106e-d873-4706-b86f-eb34302b8e7e
+	queryGroup: 'Query Errors - 4/10/2025 2:44:36 PM'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'Errors in factBiodiversity' =
+		let
+		Source = factBiodiversity,
+		  #"Detected Type Mismatches" = let
+		    tableWithOnlyPrimitiveTypes = Table.SelectColumns(Source, Table.ColumnsOfType(Source, {type nullable number, type nullable text, type nullable logical, type nullable date, type nullable datetime, type nullable datetimezone, type nullable time, type nullable duration})),
+		    recordTypeFields = Type.RecordFields(Type.TableRow(Value.Type(tableWithOnlyPrimitiveTypes))),
+		    fieldNames = Record.FieldNames(recordTypeFields),
+		    fieldTypes = List.Transform(Record.ToList(recordTypeFields), each [Type]),
+		    pairs = List.Transform(List.Positions(fieldNames), (i) => {fieldNames{i}, (v) => if v = null or Value.Is(v, fieldTypes{i}) then v else error [Message = "The type of the value does not match the type of the column.", Detail = v], fieldTypes{i}})
+		in
+		    Table.TransformColumns(Source, pairs),
+		  #"Added Index" = Table.AddIndexColumn(#"Detected Type Mismatches", "Row Number" ,1),
+		  #"Kept Errors" = Table.SelectRowsWithErrors(#"Added Index", {"Location", "BioDate", "White Perch", "American Eel", "Gaspereau", "Banded Killifish", "Mummichog", "4 Spine Stickleback", "3 Spine Stickleback", "Brook Trout", "Brook Stickleback", "9 Spine Stickleback", "Rainbow Smelt", "Rainbow Trout", "Bank Swallow Nests", "Odonata", "dimBioLocation.BioLocationID", "dimBioDate.BioDateID"}),
+		  #"Reordered Columns" = Table.ReorderColumns(#"Kept Errors", {"Row Number", "Location", "BioDate", "White Perch", "American Eel", "Gaspereau", "Banded Killifish", "Mummichog", "4 Spine Stickleback", "3 Spine Stickleback", "Brook Trout", "Brook Stickleback", "9 Spine Stickleback", "Rainbow Smelt", "Rainbow Trout", "Bank Swallow Nests", "Odonata", "dimBioLocation.BioLocationID", "dimBioDate.BioDateID"}),
+		    #"Removed Errors" = Table.RemoveRowsWithErrors(#"Reordered Columns", {"Row Number"})
+		in
+		  #"Removed Errors"
+	lineageTag: 5f5078b7-5673-4db1-9611-c1a3dc773600
+	queryGroup: 'Query Errors - 4/10/2025 10:15:32 PM'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'Errors in factBiodiversity (2)' =
+		let
+		Source = factBiodiversity,
+		  #"Detected Type Mismatches" = let
+		    tableWithOnlyPrimitiveTypes = Table.SelectColumns(Source, Table.ColumnsOfType(Source, {type nullable number, type nullable text, type nullable logical, type nullable date, type nullable datetime, type nullable datetimezone, type nullable time, type nullable duration})),
+		    recordTypeFields = Type.RecordFields(Type.TableRow(Value.Type(tableWithOnlyPrimitiveTypes))),
+		    fieldNames = Record.FieldNames(recordTypeFields),
+		    fieldTypes = List.Transform(Record.ToList(recordTypeFields), each [Type]),
+		    pairs = List.Transform(List.Positions(fieldNames), (i) => {fieldNames{i}, (v) => if v = null or Value.Is(v, fieldTypes{i}) then v else error [Message = "The type of the value does not match the type of the column.", Detail = v], fieldTypes{i}})
+		in
+		    Table.TransformColumns(Source, pairs),
+		  #"Added Index" = Table.AddIndexColumn(#"Detected Type Mismatches", "Row Number" ,1),
+		  #"Kept Errors" = Table.SelectRowsWithErrors(#"Added Index", {"White Perch", "American Eel", "Gaspereau", "Banded Killifish", "Mummichog", "4 Spine Stickleback", "3 Spine Stickleback", "Brook Trout", "Brook Stickleback", "9 Spine Stickleback", "Rainbow Smelt", "Rainbow Trout", "Bank Swallow Nests", "Odonata", "dimBioLocation.BioLocationID", "dimBioDate.BioDateID"}),
+		  #"Reordered Columns" = Table.ReorderColumns(#"Kept Errors", {"Row Number", "White Perch", "American Eel", "Gaspereau", "Banded Killifish", "Mummichog", "4 Spine Stickleback", "3 Spine Stickleback", "Brook Trout", "Brook Stickleback", "9 Spine Stickleback", "Rainbow Smelt", "Rainbow Trout", "Bank Swallow Nests", "Odonata", "dimBioLocation.BioLocationID", "dimBioDate.BioDateID"}),
+		    #"Removed Errors" = Table.RemoveRowsWithErrors(#"Reordered Columns", {"Row Number"})
+		in
+		  #"Removed Errors"
+	lineageTag: 0fbda0e8-9166-4658-a5b2-62aa595aedab
+	queryGroup: 'Query Errors - 4/10/2025 10:25:36 PM'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'Errors in factBiodiversity (3)' =
+		let
+		Source = factBiodiversity,
+		  #"Detected Type Mismatches" = let
+		    tableWithOnlyPrimitiveTypes = Table.SelectColumns(Source, Table.ColumnsOfType(Source, {type nullable number, type nullable text, type nullable logical, type nullable date, type nullable datetime, type nullable datetimezone, type nullable time, type nullable duration})),
+		    recordTypeFields = Type.RecordFields(Type.TableRow(Value.Type(tableWithOnlyPrimitiveTypes))),
+		    fieldNames = Record.FieldNames(recordTypeFields),
+		    fieldTypes = List.Transform(Record.ToList(recordTypeFields), each [Type]),
+		    pairs = List.Transform(List.Positions(fieldNames), (i) => {fieldNames{i}, (v) => if v = null or Value.Is(v, fieldTypes{i}) then v else error [Message = "The type of the value does not match the type of the column.", Detail = v], fieldTypes{i}})
+		in
+		    Table.TransformColumns(Source, pairs),
+		  #"Added Index" = Table.AddIndexColumn(#"Detected Type Mismatches", "Row Number" ,1),
+		  #"Kept Errors" = Table.SelectRowsWithErrors(#"Added Index", {"White Perch", "American Eel", "Gaspereau", "Banded Killifish", "Mummichog", "4 Spine Stickleback", "3 Spine Stickleback", "Brook Trout", "Brook Stickleback", "9 Spine Stickleback", "Rainbow Smelt", "Rainbow Trout", "Bank Swallow Nests", "Odonata", "dimBioLocation.BioLocationID", "dimBioDate.BioDateID"}),
+		  #"Reordered Columns" = Table.ReorderColumns(#"Kept Errors", {"Row Number", "White Perch", "American Eel", "Gaspereau", "Banded Killifish", "Mummichog", "4 Spine Stickleback", "3 Spine Stickleback", "Brook Trout", "Brook Stickleback", "9 Spine Stickleback", "Rainbow Smelt", "Rainbow Trout", "Bank Swallow Nests", "Odonata", "dimBioLocation.BioLocationID", "dimBioDate.BioDateID"}),
+		    #"Removed Errors" = Table.RemoveRowsWithErrors(#"Reordered Columns", {"Row Number"})
+		in
+		  #"Removed Errors"
+	lineageTag: c99ac129-583d-469c-9232-8707440814e6
+	queryGroup: 'Query Errors - 2025-04-14 1:51:57 PM'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'Errors in PEI Wetland Odonata (3)' =
+		let
+		Source = #"PEI Wetland Odonata",
+		  #"Detected Type Mismatches" = let
+		    tableWithOnlyPrimitiveTypes = Table.SelectColumns(Source, Table.ColumnsOfType(Source, {type nullable number, type nullable text, type nullable logical, type nullable date, type nullable datetime, type nullable datetimezone, type nullable time, type nullable duration})),
+		    recordTypeFields = Type.RecordFields(Type.TableRow(Value.Type(tableWithOnlyPrimitiveTypes))),
+		    fieldNames = Record.FieldNames(recordTypeFields),
+		    fieldTypes = List.Transform(Record.ToList(recordTypeFields), each [Type]),
+		    pairs = List.Transform(List.Positions(fieldNames), (i) => {fieldNames{i}, (v) => if v = null or Value.Is(v, fieldTypes{i}) then v else error [Message = "The type of the value does not match the type of the column.", Detail = v], fieldTypes{i}})
+		in
+		    Table.TransformColumns(Source, pairs),
+		  #"Added Index" = Table.AddIndexColumn(#"Detected Type Mismatches", "Row Number" ,1),
+		  #"Kept Errors" = Table.SelectRowsWithErrors(#"Added Index", {"Location", "Year", "Month", "Day", "Odonata"}),
+		  #"Reordered Columns" = Table.ReorderColumns(#"Kept Errors", {"Row Number", "Location", "Year", "Month", "Day", "Odonata"}),
+		    #"Removed Errors" = Table.RemoveRowsWithErrors(#"Reordered Columns", {"Odonata"})
+		in
+		  #"Removed Errors"
+	lineageTag: 9cf2e82b-70d2-4415-813c-5290d9f3f0c3
+	queryGroup: 'Query Errors - 2025-04-14 1:51:57 PM'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

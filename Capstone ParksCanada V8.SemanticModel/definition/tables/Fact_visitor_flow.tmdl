@@ -1,0 +1,157 @@
+table Fact_visitor_flow
+	lineageTag: f6ee4bcd-3cc6-4bce-8506-aa150d9d8c51
+
+	measure AvgNPS_LowSeason = ```
+			
+			CALCULATE(
+			    AVERAGE(Dim_Satifaction[Satisfaction]),
+			    Fact_visitor_flow[Seasonal] = "Low Season"
+			)
+			
+			```
+		lineageTag: 558442f4-b8f1-4d6e-a435-bb9812e8b3ba
+
+	measure AvgNPS_Peak = ```
+			
+			CALCULATE(
+			    AVERAGE(Dim_Satifaction[Satisfaction]),
+			    Fact_visitor_flow[Seasonal] = "High Season"
+			)
+			
+			```
+		lineageTag: e9ff9cd6-8d7d-4b77-a315-6a1369bca8d8
+
+	measure AvgSaturation_ByYear = AVERAGE(Fact_visitor_flow[Saturation_Rate])
+		lineageTag: 51cdd0e6-9bbe-4171-b65d-d0a6685eac31
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure AvgParkingSaturation_Peak =
+			
+			CALCULATE(
+			    AVERAGE(Fact_visitor_flow[Saturation_Rate]),
+			    MONTH(Fact_visitor_flow[Date]) >= 6 &&
+			    MONTH(Fact_visitor_flow[Date]) <= 9
+			)
+		lineageTag: 8159f921-75e2-4fa5-9ad1-c2957a162e33
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Satifaction_Change = [AvgNPS_Peak] - [AvgNPS_LowSeason]
+		lineageTag: e1358ff4-8866-47d3-8468-3c007c28329b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure AvgSatifaction =
+			
+			AVERAGE(Fact_visitor_flow[Satisfaction])
+		lineageTag: b2cde9a3-5d9e-40a9-9982-00e587c5fb22
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Visitor_number
+		dataType: int64
+		formatString: 0
+		lineageTag: 00866317-4081-4c4f-921b-c932936db227
+		summarizeBy: sum
+		sourceColumn: Visitor_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column AvgNPS_Peak_LastYear =
+			
+			CALCULATE(
+			    AVERAGE(Dim_Satifaction[Satisfaction]),
+			    Fact_visitor_flow[Seasonal] = "High Season",
+			    SAMEPERIODLASTYEAR('Dim_Date'[Date])
+			)
+		lineageTag: de1eb25f-001a-4875-b2b2-e71328f7dfaf
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Seasonal =
+			
+			IF(Fact_visitor_flow[Visitor_number] > 300000, "High Season", "Low Season")
+		lineageTag: 617a591f-b282-4684-ba05-f1018a60561c
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Public_Parking_Supply
+		dataType: int64
+		formatString: 0
+		lineageTag: df7f9f28-7ace-4b18-9e24-616d9f56e839
+		summarizeBy: sum
+		sourceColumn: Public_Parking_Supply
+
+		annotation SummarizationSetBy = Automatic
+
+	column Saturation_Rate
+		dataType: double
+		lineageTag: f75bd45e-0e90-4ebb-9bc3-3e074e7e2ae0
+		summarizeBy: sum
+		sourceColumn: Saturation_Rate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 4d513445-a9fb-4658-a84d-b1d04057b174
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Satisfaction
+		dataType: double
+		lineageTag: 06239d1f-1274-40b8-a8c3-2265f60ce9df
+		summarizeBy: sum
+		sourceColumn: Satisfaction
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Fact_visitor_flow_ID
+		dataType: int64
+		formatString: 0
+		lineageTag: 5346d6b0-babc-45de-bb09-380cc9b0cebd
+		summarizeBy: none
+		sourceColumn: Fact_visitor_flow_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year = YEAR([Date])
+		formatString: 0
+		lineageTag: 3adda7a1-805d-49fa-8e7a-a297af06cc16
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Fact_visitor_flow = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Web.Contents("https://mysait.sharepoint.com/sites/BSNCapstone200/Shared%20Documents/General/Capstone%20Datasets/banff_dashboard_updated_data.csv"),[Delimiter=",", Columns=8, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Removed Columns" = Table.RemoveColumns(#"Promoted Headers",{"", "_1", "_2"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Removed Columns",{{"Date", type date}, {"Visitor_number", Int64.Type}, {"Public_Parking_Supply", Int64.Type}, {"Saturation_Rate", type number}, {"NPS", type number}}),
+				    #"Divided Column" = Table.TransformColumns(#"Changed Type", {{"NPS", each _ / 100, type number}}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Divided Column",{{"Saturation_Rate", Percentage.Type}, {"NPS", Percentage.Type}}),
+				    #"Added Index" = Table.AddIndexColumn(#"Changed Type1", "Index", 1, 1, Int64.Type),
+				    #"Renamed Columns" = Table.RenameColumns(#"Added Index",{{"Index", "Fact_visitor_flow_ID"}, {"NPS", "Satisfaction"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

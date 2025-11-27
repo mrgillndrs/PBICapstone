@@ -1,0 +1,68 @@
+table factGlobalConservationTargets
+	lineageTag: b9f2e560-4f90-4831-bd06-c788a7ac4222
+
+	measure 'Area Conserved Measure' = sum(factGlobalConservationTargets[Area conserved])
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 5667aa66-2eb9-437c-9aba-4dca6802dd12
+
+	measure 'Area Protected Measure' = sum(factGlobalConservationTargets[Area conserved])
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 9f740f24-bc1b-4b6c-b62a-415747925372
+
+	measure 'Target for 2030 Measure' = sum(factGlobalConservationTargets[Target for 2030])
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 2632bcdc-2326-49b6-9519-de7a68e07863
+
+	column Territory
+		dataType: string
+		lineageTag: cd95cc4e-f583-44a0-9ae7-09e073748bdd
+		summarizeBy: none
+		sourceColumn: Territory
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Area protected'
+		dataType: double
+		lineageTag: d20d2d70-695c-4638-9cc6-17a9b3b57bf6
+		summarizeBy: sum
+		sourceColumn: Area protected
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Area conserved'
+		dataType: double
+		lineageTag: b59a8cff-d07e-423a-a4c2-f923a604df98
+		summarizeBy: sum
+		sourceColumn: Area conserved
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Target for 2030'
+		dataType: double
+		lineageTag: c4f99fc7-fd41-4f32-a63a-587f15ed1b23
+		summarizeBy: sum
+		sourceColumn: Target for 2030
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition factGlobalConservationTargets = m
+		mode: import
+		queryGroup: Conservation
+		source =
+				let
+				    Source = Csv.Document(Web.Contents("https://mysait.sharepoint.com/sites/BSNCapstone200/Shared%20Documents/General/Capstone%20Datasets/Global%20Conserved%20Areas.csv"),[Delimiter=",", Columns=4, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Territory", type text}, {"Area protected", Percentage.Type}, {"Area conserved", Percentage.Type}, {"Target for 2030", Percentage.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

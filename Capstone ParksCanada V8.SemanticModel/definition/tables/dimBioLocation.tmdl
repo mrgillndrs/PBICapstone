@@ -1,0 +1,37 @@
+table dimBioLocation
+	lineageTag: 658b886e-c0c4-47bf-a4c2-5715902d19b1
+
+	column Location
+		dataType: string
+		lineageTag: f4c7baa1-896b-4eb1-b73e-65076d79ffa5
+		summarizeBy: none
+		sourceColumn: Location
+
+		annotation SummarizationSetBy = Automatic
+
+	column BioLocationID
+		dataType: int64
+		formatString: 0
+		lineageTag: 766604a3-aed4-4380-8004-62aade8dd059
+		summarizeBy: none
+		sourceColumn: BioLocationID
+
+		annotation SummarizationSetBy = User
+
+	partition dimBioLocation = m
+		mode: import
+		queryGroup: Biodiversity
+		source =
+				let
+				    Source = Table.Combine({#"PEI Fish Data", #"PEI Bank Swallows", #"PEI Wetland Odonata"}),
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"Location"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns"),
+				    #"Added Index" = Table.AddIndexColumn(#"Removed Duplicates", "Index", 1, 1, Int64.Type),
+				    #"Renamed Columns" = Table.RenameColumns(#"Added Index",{{"Index", "BioLocationID"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

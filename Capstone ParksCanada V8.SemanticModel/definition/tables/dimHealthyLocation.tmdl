@@ -1,0 +1,50 @@
+table dimHealthyLocation
+	lineageTag: 7d19b699-6c37-4a14-bd0b-bec2c0c4531d
+
+	column 'Park Name'
+		dataType: string
+		lineageTag: 62dbcc64-ba76-4a89-a68c-2fcd045461e1
+		summarizeBy: none
+		sourceColumn: Park Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Trail Name'
+		dataType: string
+		lineageTag: 719a4da8-3d26-48f2-83dd-40cc60072339
+		summarizeBy: none
+		sourceColumn: Trail Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column HealthyLocationID
+		dataType: int64
+		formatString: 0
+		lineageTag: 6b83c0e1-86ed-440d-ad0e-07913200e3bf
+		summarizeBy: none
+		sourceColumn: HealthyLocationID
+
+		annotation SummarizationSetBy = User
+
+	partition dimHealthyLocation = m
+		mode: import
+		queryGroup: 'Healthy Vegetation'
+		source =
+				let
+				    Source = Table.Combine({#"Vegetation Yoho", #"Vegetation Kootenay"}),
+				    #"Replaced Value" = Table.ReplaceValue(Source,"","Sonchus arvensis",Replacer.ReplaceValue,{"Species Present in Area"}),
+				    #"Merged Queries" = Table.NestedJoin(#"Replaced Value", {"Plot Identification"}, dimHealthyPlot, {"Plot Identification"}, "dimHealthyPlot", JoinKind.LeftOuter),
+				    #"Merged Queries1" = Table.NestedJoin(#"Merged Queries", {"Species Present in Area"}, dimHealthySpecies, {"Species Present in Area"}, "dimHealthySpecies", JoinKind.LeftOuter),
+				    #"Expanded dimHealthyPlot" = Table.ExpandTableColumn(#"Merged Queries1", "dimHealthyPlot", {"HealthPlotID"}, {"dimHealthyPlot.HealthPlotID"}),
+				    #"Expanded dimHealthySpecies" = Table.ExpandTableColumn(#"Expanded dimHealthyPlot", "dimHealthySpecies", {"HealthySpeciesID"}, {"dimHealthySpecies.HealthySpeciesID"}),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Expanded dimHealthySpecies",{"Park Name", "Trail Name"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns", {"Trail Name"}),
+				    #"Added Index" = Table.AddIndexColumn(#"Removed Duplicates", "Index", 1, 1, Int64.Type),
+				    #"Renamed Columns" = Table.RenameColumns(#"Added Index",{{"Index", "HealthyLocationID"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

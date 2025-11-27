@@ -1,0 +1,79 @@
+table factPEIPurpleLoostrife
+	lineageTag: 26713cad-ac1b-4437-8632-8396e8f3706d
+
+	measure 'Total Stems Measure' = sum(factPEIPurpleLoostrife[Total Number of Stems])
+		formatString: 0
+		lineageTag: 040737d7-c546-4848-9ed7-9205338f6161
+
+	measure 'Total Removed Measure' = SUM(factPEIPurpleLoostrife[Total Removed])
+		formatString: 0
+		lineageTag: dc8868c0-5346-4ad5-bc43-f0da96a6a5ad
+
+	measure 'Control Effectiveness %' =
+			
+			DIVIDE(
+			    SUM(factPEIPurpleLoostrife[Total Removed]),
+			    SUM(factPEIPurpleLoostrife[Total Number of Stems]),
+			    0
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 00cd0fdd-6418-4b23-9654-57b78d96ba72
+
+	column 'Total Removed'
+		dataType: int64
+		formatString: 0
+		lineageTag: 4907efe3-a92a-420d-a11a-1f8d3cffdb8e
+		summarizeBy: sum
+		sourceColumn: Total Removed
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Total Number of Stems'
+		dataType: int64
+		formatString: 0
+		lineageTag: a3d21842-3420-404e-b070-ac00fbe35271
+		summarizeBy: sum
+		sourceColumn: Total Number of Stems
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'dimLoostrifeLocation.LoostrifeLocationID'
+		dataType: int64
+		formatString: 0
+		lineageTag: a76dc792-bce1-41b5-96a0-68f21eeb7b33
+		summarizeBy: none
+		sourceColumn: dimLoostrifeLocation.LoostrifeLocationID
+
+		annotation SummarizationSetBy = User
+
+	column 'dimLoostrifeDate.LoostrifeDateID'
+		dataType: int64
+		formatString: 0
+		lineageTag: ba38d40d-72fe-45bb-badb-9ef44541c5f5
+		summarizeBy: none
+		sourceColumn: dimLoostrifeDate.LoostrifeDateID
+
+		annotation SummarizationSetBy = User
+
+	partition factPEIPurpleLoostrife = m
+		mode: import
+		queryGroup: PEILoostrife
+		source =
+				let
+				    Source = Csv.Document(Web.Contents("https://mysait.sharepoint.com/sites/BSNCapstone200/Shared%20Documents/General/Capstone%20Datasets/PEI%20Purple%20Loostrife%20Clean(CSV).csv"),[Delimiter=",", Columns=9, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Ecosystem", type text}, {"Watershed", type text}, {"Site", type text}, {"Wetland Class", type text}, {"Year", Int64.Type}, {"Total Removed", Int64.Type}, {"Total Number of Stems", Int64.Type}, {"", type text}, {"_1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"", "_1", "Wetland Class", "Ecosystem"}),
+				    #"Removed Bottom Rows" = Table.RemoveLastN(#"Removed Columns",1),
+				    #"Merged Queries" = Table.NestedJoin(#"Removed Bottom Rows", {"Site"}, dimLoostrifeLocation, {"Site"}, "dimLoostrifeLocation", JoinKind.LeftOuter),
+				    #"Expanded dimLoostrifeLocation" = Table.ExpandTableColumn(#"Merged Queries", "dimLoostrifeLocation", {"LoostrifeLocationID"}, {"dimLoostrifeLocation.LoostrifeLocationID"}),
+				    #"Merged Queries1" = Table.NestedJoin(#"Expanded dimLoostrifeLocation", {"Year"}, dimLoostrifeDate, {"Year"}, "dimLoostrifeDate", JoinKind.LeftOuter),
+				    #"Expanded dimLoostrifeDate" = Table.ExpandTableColumn(#"Merged Queries1", "dimLoostrifeDate", {"LoostrifeDateID"}, {"dimLoostrifeDate.LoostrifeDateID"}),
+				    #"Removed Columns1" = Table.RemoveColumns(#"Expanded dimLoostrifeDate",{"Watershed", "Site", "Year"})
+				in
+				    #"Removed Columns1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

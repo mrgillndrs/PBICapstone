@@ -1,0 +1,82 @@
+relationship 9fb4a3df-8ac9-4e17-9892-72057b6df3be
+	fromColumn: factHealthyVegetation.'Species Present in Area'
+	toColumn: dimHealthySpecies.'Species Present in Area'
+
+	annotation PBI_IsFromSource = FS
+
+relationship 95e8e180-e25c-bab6-9040-106e9a5680c2
+	fromColumn: factPEIPurpleLoostrife.'dimLoostrifeDate.LoostrifeDateID'
+	toColumn: dimLoostrifeDate.LoostrifeDateID
+
+relationship 358d2007-8afd-c543-d3c5-8992e474774b
+	fromColumn: factPEIPurpleLoostrife.'dimLoostrifeLocation.LoostrifeLocationID'
+	toColumn: dimLoostrifeLocation.LoostrifeLocationID
+
+relationship 20622664-d434-4516-a12a-a368229e3296
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dimBioDate.BioDate
+	toColumn: LocalDateTable_57c80b43-9ed6-424f-8c37-512fb24b6e36.Date
+
+relationship 57028ab4-82c4-49fa-b728-70c84d247bed
+	fromColumn: factHealthyVegetation.'dimHealthyPlot.HealthPlotID'
+	toColumn: dimHealthyPlot.HealthPlotID
+
+relationship b591bc0a-89d9-c433-a0eb-a5def114228c
+	fromColumn: factHealthyVegetation.'dimHealthyLocation.HealthyLocationID'
+	toColumn: dimHealthyLocation.HealthyLocationID
+
+relationship c52f416a-5991-5f2a-0f2f-612f990409f0
+	fromColumn: factHealthyVegetation.'dimHealthyDate.HealthyDateID'
+	toColumn: dimHealthyDate.HealthyDateID
+
+relationship 0a22b6c1-1607-6f0c-44f0-bdeaf7a98783
+	fromColumn: factBiodiversity.'dimBioLocation.BioLocationID'
+	toColumn: dimBioLocation.BioLocationID
+
+relationship bd2e93a0-86f7-3423-8ffc-757c9e95654a
+	fromColumn: factBiodiversity.'dimBioDate.BioDateID'
+	toColumn: dimBioDate.BioDateID
+
+relationship e63d6a6a-5820-dc21-1634-19478afcf227
+	fromColumn: factInvasiveVegetation.'dimDate.InvasiveDateID'
+	toColumn: dimInvasiveDate.InvasiveDateID
+
+relationship 446b4cf7-6ac6-521f-5ce2-2b8a477526cf
+	fromColumn: factInvasiveVegetation.'dimInvasiveSpecies.InvasiveSpeciesID'
+	toColumn: dimInvasiveSpecies.Index
+
+relationship fecbdbc5-90db-d000-133e-f7617ff59f04
+	fromColumn: factInvasiveVegetation.'dimInvasivePlot.InvasivePlotID'
+	toColumn: dimInvasivePlot.Index
+
+relationship 368beadc-81c9-df2a-1eee-e5410ecceca6
+	fromColumn: factInvasiveVegetation.'dimInvasiveLocation.InvasiveLocationID'
+	toColumn: dimInvasiveLocation.InvasiveLocationID
+
+relationship bf85d6f9-3f37-46fd-8dfe-712209ffa15d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Dim_Date.Date
+	toColumn: LocalDateTable_371e9064-1813-46fb-b2fd-d010fac5730a.Date
+
+relationship 1161c97f-e66b-a630-4fcb-54e0817f5469
+	fromColumn: Dim_Parking_Saturation_Rate.'Visitor Saturation ID'
+	toColumn: Fact_visitor_flow.Fact_visitor_flow_ID
+
+relationship b50e8af2-2821-a9c6-460a-ace1395a644e
+	fromColumn: Dim_Monthly_Visitors.'Visitor ID'
+	toColumn: Fact_visitor_flow.Fact_visitor_flow_ID
+
+relationship 07b7d391-51ac-8fc1-d0a5-592a1ac9c305
+	fromColumn: Dim_Parking_Capacity.'Parking Capacity ID'
+	toColumn: Fact_visitor_flow.Fact_visitor_flow_ID
+
+relationship 10289ae1-0b93-9e4f-d20c-bf80719b07c5
+	fromColumn: Dim_Satifaction.'Fact_visitor_flow.Fact_visitor_flow_ID'
+	toColumn: Fact_visitor_flow.Fact_visitor_flow_ID
+
+relationship 6fd7f161-4712-838e-6559-debe31a33c5c
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: Fact_visitor_flow.Date
+	toColumn: Dim_Date.Date
+

@@ -1,0 +1,51 @@
+table dimBioDate
+	lineageTag: 45ba3301-2a6d-4a04-80bb-50c58ccf4fa6
+
+	column BioDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 7c4c84ae-f594-4869-8403-4f829bbd62bd
+		summarizeBy: none
+		sourceColumn: BioDate
+
+		variation Variation
+			isDefault
+			relationship: 20622664-d434-4516-a12a-a368229e3296
+			defaultHierarchy: LocalDateTable_57c80b43-9ed6-424f-8c37-512fb24b6e36.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column BioDateID
+		dataType: int64
+		formatString: 0
+		lineageTag: eb40fd99-c405-46b5-8f51-1903e4bee8c1
+		summarizeBy: none
+		sourceColumn: BioDateID
+
+		annotation SummarizationSetBy = User
+
+	partition dimBioDate = m
+		mode: import
+		queryGroup: Biodiversity
+		source =
+				let
+				    Source = Table.Combine({#"PEI Fish Data", #"PEI Bank Swallows", #"PEI Wetland Odonata"}),
+				    #"Merged Queries" = Table.NestedJoin(Source, {"Location"}, dimBioLocation, {"Location"}, "dimBioLocation", JoinKind.LeftOuter),
+				    #"Expanded dimBioLocation" = Table.ExpandTableColumn(#"Merged Queries", "dimBioLocation", {"BioLocationID"}, {"dimBioLocation.BioLocationID"}),
+				    #"Added Custom" = Table.AddColumn(#"Expanded dimBioLocation", "BioDate", each Date.FromText(Text.From([Year]) & "-" & Text.PadStart(Text.From([Month]), 2, "0") & "-" & Text.PadStart(Text.From([Day]), 2, "0"))),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Added Custom",{{"BioDate", type date}}),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Changed Type",{"Location", "Year", "Month", "BioDate", "Day", "White Perch", "American Eel", "Gaspereau", "Banded Killifish", "Mummichog", "4 Spine Stickleback", "3 Spine Stickleback", "Brook Trout", "Brook Stickleback", "9 Spine Stickleback", "Rainbow Smelt", "Rainbow Trout", "Bank Swallow Nests", "Odonata", "dimBioLocation.BioLocationID"}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Reordered Columns",{"Year", "Month", "Day"}),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Removed Columns",{"BioDate"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns"),
+				    #"Added Index" = Table.AddIndexColumn(#"Removed Duplicates", "Index", 1, 1, Int64.Type),
+				    #"Renamed Columns" = Table.RenameColumns(#"Added Index",{{"Index", "BioDateID"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

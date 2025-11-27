@@ -1,0 +1,41 @@
+﻿Plot Identification,Date (D/M/Y),Park Name,Access (Trail Name),Species Present in Area,Total Cover Along transect,Percent Cover Per Species (%),Latitude,Distance_Between_Transects_in_Metres,Longitude,Location ID
+ECZ 1,18/07/2016,Yoho,Centennial Tr,Ranunculus acris,0.15%,0.15%,51.43968091,2500,-116.3034784,1
+ECZ 15,11/08/2016,Yoho,Celeste Lake,Ranunculus acris,0.15%,0.15%,51.22140341,2500,-116.5902627,2
+ECZ 22,26/07/2016,Yoho,Mount Hunter,Ranunculus acris,0.15%,0.15%,51.34433195,2500,-116.3332961,3
+ECZ 23,28/08/2016,Yoho,All Soul's - Lake O'Hara,Ranunculus acris,0.15%,0.15%,51.52935041,2500,-116.5017007,4
+ECZ 28,26/08/2016,Yoho,Mount Hunter,Ranunculus acris,0.15%,0.15%,51.44341458,2500,-116.5388246,5
+ECZ 30,18/07/2016,Yoho,Emerald Lake,Ranunculus acris,0.15%,0.15%,51.43444929,2500,-116.3299998,6
+EPZ 1,27/07/2016,Yoho,"Lake O'Hara, Morning Glory Lakes",Ranunculus acris,0.15%,0.15%,51.34184628,2500,-116.358371,7
+EPZ 7,27/07/2016,Yoho,Lake O'Hara - MacArthur Pass Trail,Ranunculus acris,0.15%,0.15%,51.34921775,2500,-116.3306836,8
+EPZ 9,27/07/2016,Yoho,Lake O'Hara - Opabin Lake Trail,Ranunculus acris,0.15%,0.15%,51.34222054,2500,-116.3577484,9
+EPZ 16,27/07/2016,Yoho,Lake O'Hara - MacArthur Pass Trail,Ranunculus acris,0.15%,0.15%,51.34317512,2500,-116.3580079,10
+EPZ 17,27/07/2016,Yoho,Lake O'Hara - MacArthur Pass Trail,Ranunculus acris,0.15%,0.15%,51.36025464,2500,-116.3408353,11
+EPZ 21,27/07/2016,Yoho,Lake O'Hara on Lake Loop Trail,Ranunculus acris,0.15%,0.15%,51.34164152,2500,-116.3587472,12
+EPZ 22,27/07/2016,Yoho,"Lake O'Hara, McArthur Pass Trail",Ranunculus acris,0.15%,0.15%,51.34433195,2500,-116.3332961,13
+EPZ 23,28/07/2016,Yoho,"Lake O'Hara, All Souls Alpine Route",Ranunculus acris,0.15%,0.15%,51.34750635,2500,-116.3412767,14
+EPZ 33,28/07/2016,Yoho,"Lake O'Hara, All Souls Alpine Route",Ranunculus acris,0.15%,0.15%,51.34931091,2500,-116.3203147,15
+EPZ 34,28/07/2016,Yoho,"Lake O'Hara,Yukness Alpine Route",Ranunculus acris,0.15%,0.15%,51.48949788,2500,-116.4951784,16
+EPZ 39,27/07/2016,Yoho,Lake O'Hara - Opabin Lake Trail,Ranunculus acris,0.15%,0.15%,51.35359379,2500,-116.3574315,17
+EPZ 40,27/07/2016,Yoho,"Lake O'Hara, Opabin Alpine Route",Ranunculus acris,0.15%,0.15%,51.3712013,2500,-116.3947816,18
+EPZ 41,27/07/2016,Yoho,"Lake O'Hara, Cathedral Lake",Ranunculus acris,0.15%,0.15%,51.43140975,2500,-116.3996542,19
+ICZ 6,13/07/2016,Yoho,Spiral Tunnel,Taraxacum officinale,7.45%,29.80%,51.43076484,2500,-116.4072148,20
+ICZ 9,13/07/2016,Yoho,Sprial Tunnels,Taraxacum officinale,1.31%,5.24%,51.34760077,2500,-116.5492064,21
+ICZ 12,29/07/2016,Yoho,Ottertail Pit,Melilotus officinalis,20.51%,82.04%,51.34760077,2500,-116.5492064,22
+ICZ 12,29/07/2016,Yoho,Ottertail Pit,Hieracium aurantiacum,0.29%,1.16%,51.34760077,2500,-116.5492064,23
+ICZ 12,29/07/2016,Yoho,Ottertail Pit,Leucanthemum vulgare,11.40%,45.60%,51.34760077,2500,-116.5492064,24
+ICZ 12,29/07/2016,Yoho,Ottertail Pit,Taraxacum officinale,1.81%,7.24%,51.34760077,2500,-116.5492064,25
+ICZ 12,29/07/2016,Yoho,Ottertail Pit,Sonchus arvensis,1.38%,5.52%,51.34760077,2500,-116.5492064,26
+ICZ 12,29/07/2016,Yoho,Ottertail Pit,Verbascum thapsus,0.15%,0.15%,51.34760077,2500,-116.5492064,27
+ICZ 12,29/07/2016,Yoho,Ottertail Pit,Ranunculus acris,0.15%,0.15%,51.34760077,2500,-116.5492064,28
+ICZ 12,29/07/2016,Yoho,Ottertail Pit,Cirsium arvense,0.15%,0.15%,51.34760077,2500,-116.5492064,29
+ICZ 26,09/08/2016,Yoho,Ottertail Pit,Leucanthemum vulgare,0.15%,0.15%,51.27714194,2500,-116.5891506,30
+ICZ 26,09/08/2016,Yoho,Ottertail Pit,Melilotus officinalis,0.15%,0.15%,51.27714194,2500,-116.5891506,31
+ICZ 26,09/08/2016,Yoho,Ottertail Pit,Taraxacum officinale,0.15%,0.15%,51.27714194,2500,-116.5891506,32
+ICZ 26,09/08/2016,Yoho,Ottertail Pit,Sonchus arvensis,0.15%,0.15%,51.27714194,2500,-116.5891506,33
+ICZ 36,04/08/2016,Yoho,Ottertail Pit,Cirsium vulgare,0.15%,0.15%,51.3164404,2500,-116.5773634,34
+ICZ 36,04/08/2016,Yoho,Ottertail Pit,Trifolium pratense,0.15%,0.15%,51.3164404,2500,-116.5773634,35
+ICZ 36,04/08/2016,Yoho,Ottertail Pit,Centaurea diffusa,0.15%,0.15%,51.3164404,2500,-116.5773634,36
+ICZ 36,04/08/2016,Yoho,Ottertail Pit,Leucanthemum vulgare,0.15%,0.15%,51.3164404,2500,-116.5773634,37
+ICZ 36,04/08/2016,Yoho,Ottertail Pit,Trifolium pratense,0.15%,0.15%,51.3164404,2500,-116.5773634,38
+ICZ 36,04/08/2016,Yoho,Ottertail Pit,Taraxacum officinale,0.15%,0.15%,51.3164404,2500,-116.5773634,39
+ICZ 36,04/08/2016,Yoho,Ottertail Pit,Sonchus arvensis,0.15%,0.15%,51.3164404,2500,-116.5773634,40

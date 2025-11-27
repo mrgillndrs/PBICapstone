@@ -1,0 +1,52 @@
+table dimInvasivePlot
+	lineageTag: d7dc1de6-832a-4faa-98cd-94cbb554ba5f
+
+	column Plot
+		dataType: string
+		lineageTag: 94ad0d9c-36fa-4f0c-b598-33b925b5bed2
+		summarizeBy: none
+		sourceColumn: Plot
+
+		annotation SummarizationSetBy = Automatic
+
+	column Latitude
+		dataType: string
+		lineageTag: 5fcee2be-5807-4ce0-bd59-4910f2f9d6ef
+		summarizeBy: none
+		sourceColumn: Latitude
+
+		annotation SummarizationSetBy = Automatic
+
+	column Longitude
+		dataType: string
+		lineageTag: 5ee8395e-7201-4b46-9513-c978e6e0be23
+		summarizeBy: none
+		sourceColumn: Longitude
+
+		annotation SummarizationSetBy = Automatic
+
+	column Index
+		dataType: int64
+		formatString: 0
+		lineageTag: 8fcb1f1d-8d6e-446e-9ca9-54377efcdccc
+		summarizeBy: none
+		sourceColumn: Index
+
+		annotation SummarizationSetBy = User
+
+	partition dimInvasivePlot = m
+		mode: import
+		queryGroup: 'Invasive Vegetation'
+		source =
+				let
+				    Source = Table.Combine({#"Invasive Yoho", #"Invasive Kootenays"}),
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"Plot", "Latitude", "Longitude"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns", {"Plot"}),
+				    #"Added Index" = Table.AddIndexColumn(#"Removed Duplicates", "Index", 1, 1, Int64.Type)
+				in
+				    #"Added Index"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

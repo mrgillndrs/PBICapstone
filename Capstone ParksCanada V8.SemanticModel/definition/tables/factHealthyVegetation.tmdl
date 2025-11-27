@@ -1,0 +1,181 @@
+table factHealthyVegetation
+	lineageTag: c0a1e706-c151-4c9b-ae50-0f176220db20
+
+	measure 'Vegetation Health KPI (%)' =
+			
+			DIVIDE(
+			    SUM(factHealthyVegetation[Percent Cover Per Species (%)]),
+			    SUM(factHealthyVegetation[Distance_Between_Transects_in_Metres])
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 7f226a96-3cc1-422d-b709-5f6a8ae579c8
+
+	measure 'Vegetation Health KPI - Kootenay (%)' =
+			
+			DIVIDE(
+			    SUMX(
+			        FILTER(factHealthyVegetation, factHealthyVegetation[dimHealthyLocation.HealthyLocationID] = "Kootenay"),
+			        factHealthyVegetation[Percent Cover Per Species (%)]
+			    ),
+			    SUMX(
+			        FILTER(factHealthyVegetation, factHealthyVegetation[dimHealthyLocation.HealthyLocationID] = "Kootenay"),
+			        factHealthyVegetation[Distance_Between_Transects_in_Metres]
+			    )
+			)
+		formatString: 0%;-0%;0%
+		lineageTag: 3ec8b068-1806-48dc-bcc3-fa3c1f351113
+
+	measure 'Vegetation Health KPI - Yoho (%)' =
+			
+			DIVIDE(
+			    SUMX(
+			        FILTER(factHealthyVegetation, factHealthyVegetation[dimHealthyLocation.HealthyLocationID] = "Yoho"),
+			        factHealthyVegetation[Percent Cover Per Species (%)]
+			    ),
+			    SUMX(
+			        FILTER(factHealthyVegetation, factHealthyVegetation[dimHealthyLocation.HealthyLocationID] = "Yoho"),
+			        factHealthyVegetation[Distance_Between_Transects_in_Metres]
+			    )
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 6896a35d-b810-4683-b0a6-5210fddcf8c5
+
+	measure 'Total Percent Cover' =
+			
+			SUM(factHealthyVegetation[Percent Cover Per Species (%)])
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 3caec168-6d63-4e22-8ca6-79e0ec35a561
+
+	measure 'Total Distance Surveyed' =
+			
+			SUM(factHealthyVegetation[Distance_Between_Transects_in_Metres])
+		formatString: 0
+		lineageTag: 0523c446-8548-4cac-9650-de15ef46ce22
+
+	measure 'Get Park Name' =
+			
+			LOOKUPVALUE(
+			    'dimHealthyLocation'[Park Name],
+			    'dimHealthyLocation'[HealthyLocationID], SELECTEDVALUE('factHealthyVegetation'[dimHealthyLocation.HealthyLocationID])
+			)
+		lineageTag: 2152040b-3c83-45ac-90fa-9a4d0cd606c7
+
+	measure 'Weighted Percent Cover' =
+			
+			SUMX(
+			    factHealthyVegetation,
+			    factHealthyVegetation[Distance_Between_Transects_in_Metres] * factHealthyVegetation[Percent Cover Per Species (%)]
+			) / SUM(factHealthyVegetation[Distance_Between_Transects_in_Metres])
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 9bd9dc8e-de94-4c4f-8927-e5e09b79fa0e
+
+	column 'Species Present in Area'
+		dataType: string
+		lineageTag: 5e97a802-82a3-438f-ade0-8fee92f63d2b
+		summarizeBy: none
+		sourceColumn: Species Present in Area
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Total Cover Along transect'
+		dataType: double
+		lineageTag: 049c8fd3-a441-47fd-aaba-2c3f64575090
+		summarizeBy: sum
+		sourceColumn: Total Cover Along transect
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Percent Cover Per Species (%)'
+		dataType: double
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 360e9f84-3c15-4d8b-a311-164abeb81470
+		summarizeBy: sum
+		sourceColumn: Percent Cover Per Species (%)
+
+		annotation SummarizationSetBy = Automatic
+
+	column Distance_Between_Transects_in_Metres
+		dataType: int64
+		formatString: 0
+		lineageTag: dc9f4034-946d-449d-85b9-dacbf730e69e
+		summarizeBy: none
+		sourceColumn: Distance_Between_Transects_in_Metres
+
+		annotation SummarizationSetBy = User
+
+	column 'Location ID'
+		dataType: int64
+		formatString: 0
+		lineageTag: 730d94e8-dad3-4ef4-a688-742b009b09e3
+		summarizeBy: none
+		sourceColumn: Location ID
+
+		annotation SummarizationSetBy = User
+
+	column 'dimHealthyPlot.HealthPlotID'
+		dataType: int64
+		formatString: 0
+		lineageTag: 547b7da0-2ae0-4e55-bb54-92ff8c2a126c
+		summarizeBy: none
+		sourceColumn: dimHealthyPlot.HealthPlotID
+
+		annotation SummarizationSetBy = User
+
+	column 'dimHealthySpecies.HealthySpeciesID'
+		dataType: int64
+		formatString: 0
+		lineageTag: b77a3b88-b864-4d19-bfb1-25a099117e20
+		summarizeBy: none
+		sourceColumn: dimHealthySpecies.HealthySpeciesID
+
+		annotation SummarizationSetBy = User
+
+	column 'dimHealthyLocation.HealthyLocationID'
+		dataType: int64
+		formatString: 0
+		lineageTag: 484c931b-741e-4455-a4ac-cb9a421a7136
+		summarizeBy: none
+		sourceColumn: dimHealthyLocation.HealthyLocationID
+
+		annotation SummarizationSetBy = User
+
+	column 'dimHealthyDate.HealthyDateID'
+		dataType: int64
+		formatString: 0
+		lineageTag: f303da65-156d-4d68-b848-ce37794450a6
+		summarizeBy: none
+		sourceColumn: dimHealthyDate.HealthyDateID
+
+		annotation SummarizationSetBy = User
+
+	column CombinedColumn = factHealthyVegetation[dimHealthyLocation.HealthyLocationID] & " - " & factHealthyVegetation[dimHealthySpecies.HealthySpeciesID]
+		lineageTag: 4b3a2a39-c73c-4a1c-a4e9-5430fa724963
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition factHealthyVegetation = m
+		mode: import
+		queryGroup: 'Healthy Vegetation'
+		source =
+				let
+				    Source = Table.Combine({#"Vegetation Yoho", #"Vegetation Kootenay"}),
+				    #"Replaced Value" = Table.ReplaceValue(Source,"","Sonchus arvensis",Replacer.ReplaceValue,{"Species Present in Area"}),
+				    #"Merged Queries" = Table.NestedJoin(#"Replaced Value", {"Plot Identification"}, dimHealthyPlot, {"Plot Identification"}, "dimHealthyPlot", JoinKind.LeftOuter),
+				    #"Merged Queries1" = Table.NestedJoin(#"Merged Queries", {"Species Present in Area"}, dimHealthySpecies, {"Species Present in Area"}, "dimHealthySpecies", JoinKind.LeftOuter),
+				    #"Expanded dimHealthyPlot" = Table.ExpandTableColumn(#"Merged Queries1", "dimHealthyPlot", {"HealthPlotID"}, {"dimHealthyPlot.HealthPlotID"}),
+				    #"Expanded dimHealthySpecies" = Table.ExpandTableColumn(#"Expanded dimHealthyPlot", "dimHealthySpecies", {"HealthySpeciesID"}, {"dimHealthySpecies.HealthySpeciesID"}),
+				    #"Merged Queries2" = Table.NestedJoin(#"Expanded dimHealthySpecies", {"Trail Name"}, dimHealthyLocation, {"Trail Name"}, "dimHealthyLocation", JoinKind.LeftOuter),
+				    #"Expanded dimHealthyLocation" = Table.ExpandTableColumn(#"Merged Queries2", "dimHealthyLocation", {"HealthyLocationID"}, {"dimHealthyLocation.HealthyLocationID"}),
+				    #"Merged Queries3" = Table.NestedJoin(#"Expanded dimHealthyLocation", {"Date"}, dimHealthyDate, {"Date"}, "dimHealthyDate", JoinKind.LeftOuter),
+				    #"Expanded dimHealthyDate" = Table.ExpandTableColumn(#"Merged Queries3", "dimHealthyDate", {"HealthyDateID"}, {"dimHealthyDate.HealthyDateID"}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Expanded dimHealthyDate",{"Plot Identification", "Date", "Park Name", "Trail Name", "Latitude", "Longitude"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,44 @@
+table dimLoostrifeDate
+	lineageTag: 3f3c4ea6-20ff-4624-8079-959b19aa40b7
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 9458d769-1612-4b13-8b48-6e33417c146f
+		summarizeBy: none
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column LoostrifeDateID
+		dataType: int64
+		formatString: 0
+		lineageTag: 7578b19c-12d3-4337-b8b7-2e8873f7a3da
+		summarizeBy: none
+		sourceColumn: LoostrifeDateID
+
+		annotation SummarizationSetBy = User
+
+	partition dimLoostrifeDate = m
+		mode: import
+		queryGroup: PEILoostrife
+		source =
+				let
+				    Source = Csv.Document(Web.Contents("https://mysait.sharepoint.com/sites/BSNCapstone200/Shared%20Documents/General/Capstone%20Datasets/PEI%20Purple%20Loostrife%20Clean(CSV).csv"),[Delimiter=",", Columns=9, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Ecosystem", type text}, {"Watershed", type text}, {"Site", type text}, {"Wetland Class", type text}, {"Year", Int64.Type}, {"Total Removed", Int64.Type}, {"Total Number of Stems", Int64.Type}, {"", type text}, {"_1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"", "_1", "Wetland Class", "Ecosystem"}),
+				    #"Removed Bottom Rows" = Table.RemoveLastN(#"Removed Columns",1),
+				    #"Merged Queries" = Table.NestedJoin(#"Removed Bottom Rows", {"Site"}, dimLoostrifeLocation, {"Site"}, "dimLoostrifeLocation", JoinKind.LeftOuter),
+				    #"Expanded dimLoostrifeLocation" = Table.ExpandTableColumn(#"Merged Queries", "dimLoostrifeLocation", {"LoostrifeLocationID"}, {"dimLoostrifeLocation.LoostrifeLocationID"}),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Expanded dimLoostrifeLocation",{"Year"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns"),
+				    #"Added Index" = Table.AddIndexColumn(#"Removed Duplicates", "Index", 1, 1, Int64.Type),
+				    #"Renamed Columns" = Table.RenameColumns(#"Added Index",{{"Index", "LoostrifeDateID"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

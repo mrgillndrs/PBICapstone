@@ -1,0 +1,39 @@
+table Dim_Parking_Capacity
+	lineageTag: ccd43949-c1d8-4136-af1d-9dc0573b9d54
+
+	column Public_Parking_Supply
+		dataType: int64
+		formatString: 0
+		lineageTag: af1b53cc-ed0f-4410-869a-c8cf33ccd752
+		summarizeBy: sum
+		sourceColumn: Public_Parking_Supply
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parking Capacity ID'
+		dataType: int64
+		formatString: 0
+		lineageTag: 5117e0fc-befb-4a60-90c7-12dd8cd20844
+		summarizeBy: none
+		sourceColumn: Parking Capacity ID
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_Parking_Capacity = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Web.Contents("https://mysait.sharepoint.com/sites/BSNCapstone200/Shared%20Documents/General/Capstone%20Datasets/banff_dashboard_updated_data.csv"),[Delimiter=",", Columns=5, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Promoted Headers",{"Public_Parking_Supply"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Removed Other Columns",{{"Public_Parking_Supply", Int64.Type}}),
+				    #"Merged Queries" = Table.NestedJoin(#"Changed Type", {"Public_Parking_Supply"}, Fact_visitor_flow, {"Public_Parking_Supply"}, "Fact_visitor_flow", JoinKind.LeftOuter),
+				    #"Expanded Fact_visitor_flow" = Table.ExpandTableColumn(#"Merged Queries", "Fact_visitor_flow", {"Fact_visitor_flow_ID"}, {"Fact_visitor_flow.Fact_visitor_flow_ID"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Expanded Fact_visitor_flow",{{"Fact_visitor_flow.Fact_visitor_flow_ID", "Parking Capacity ID"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

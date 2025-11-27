@@ -1,0 +1,154 @@
+table 'Vegetation Yoho'
+	isHidden
+	lineageTag: 1320d8bc-1ed8-4f12-b557-8c64d6db843a
+
+	column 'Plot Identification'
+		dataType: string
+		isHidden
+		lineageTag: b0e3fd5c-6661-4222-8368-d2c85cb1fea5
+		summarizeBy: none
+		sourceColumn: Plot Identification
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: string
+		isHidden
+		lineageTag: d3ec3859-18dc-4528-a70e-da7ef91b7e04
+		summarizeBy: none
+		sourceColumn: Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Park Name'
+		dataType: string
+		isHidden
+		lineageTag: cbec18e2-58e7-4302-bd2b-c8268757c234
+		summarizeBy: none
+		sourceColumn: Park Name
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Trail Name'
+		dataType: string
+		isHidden
+		lineageTag: 783ccede-3d13-4154-b200-ea8f820ac10d
+		summarizeBy: none
+		sourceColumn: Trail Name
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Species Present in Area'
+		dataType: string
+		isHidden
+		lineageTag: a988d310-233c-420d-8885-5c7c3cbf4552
+		summarizeBy: none
+		sourceColumn: Species Present in Area
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Total Cover Along transect'
+		dataType: double
+		isHidden
+		lineageTag: 5b357ea0-a86a-4860-ae86-c3f77cf36621
+		summarizeBy: sum
+		sourceColumn: Total Cover Along transect
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Percent Cover Per Species (%)'
+		dataType: double
+		isHidden
+		lineageTag: 1e7bf42b-0ea7-4b5f-a5c4-319fb25258b4
+		summarizeBy: sum
+		sourceColumn: Percent Cover Per Species (%)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Latitude
+		dataType: double
+		isHidden
+		lineageTag: 57985c2b-70f2-4b74-986e-c54baf91542b
+		summarizeBy: sum
+		sourceColumn: Latitude
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Distance_Between_Transects_in_Metres
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 1aff3c2c-cbf0-47ca-9de0-3797ae344aa6
+		summarizeBy: sum
+		sourceColumn: Distance_Between_Transects_in_Metres
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Longitude
+		dataType: double
+		isHidden
+		lineageTag: fd16f4e9-dc0e-4ae5-856a-da467d1ff0fb
+		summarizeBy: sum
+		sourceColumn: Longitude
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Location ID'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: e0428f92-e1e6-4b2a-b424-6587d514cb3a
+		summarizeBy: count
+		sourceColumn: Location ID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Vegetation Yoho' = m
+		mode: import
+		queryGroup: 'Base Table Data'
+		source =
+				let
+				    Source = Csv.Document(Web.Contents("https://mysait.sharepoint.com/sites/BSNCapstone200/Shared%20Documents/General/Capstone%20Datasets/forest_non_native_vegetation_yoho_2016_data.csv"),[Delimiter=",", Columns=11, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Plot Identification", type text}, {"Date (D/M/Y)", type text}, {"Park Name", type text}, {"Access (Trail Name)", type text}, {"Species Present in Area", type text}, {"Total Cover Along transect", Percentage.Type}, {"Percent Cover Per Species (%)", Percentage.Type}, {"Latitude", type number}, {"Distance_Between_Transects_in_Metres", Int64.Type}, {"Longitude", type number}, {"Location ID", Int64.Type}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"Date (D/M/Y)", "Date"}, {"Access (Trail Name)", "Trail Name"}}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Renamed Columns",{{"Percent Cover Per Species (%)", Percentage.Type}})
+				in
+				    #"Changed Type1"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

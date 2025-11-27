@@ -1,0 +1,51 @@
+table Dim_Parking_Saturation_Rate
+	lineageTag: 77b9f79b-3911-4942-af86-39f281683e9a
+
+	measure AvgSaturation =
+			
+			AVERAGE(Fact_visitor_flow[Saturation_Rate])
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 3e7e4fb4-88f2-47b6-b5a7-2933bfc72c42
+
+	measure Target = 1
+		formatString: 0
+		lineageTag: 72e4d51f-7337-493d-81b3-fef8f44bdb12
+
+	column Saturation_Rate
+		dataType: double
+		lineageTag: 578c155f-75bf-4934-b6b3-db07c11f416a
+		summarizeBy: sum
+		sourceColumn: Saturation_Rate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Visitor Saturation ID'
+		dataType: int64
+		formatString: 0
+		lineageTag: aafcd655-fdfb-4973-9739-e9e4805451b7
+		summarizeBy: none
+		sourceColumn: Visitor Saturation ID
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_Parking_Saturation_Rate = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Web.Contents("https://mysait.sharepoint.com/sites/BSNCapstone200/Shared%20Documents/General/Capstone%20Datasets/banff_dashboard_updated_data.csv"),[Delimiter=",", Columns=5, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Saturation_Rate", Percentage.Type}}),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Changed Type",{"Saturation_Rate"}),
+				    #"Merged Queries" = Table.NestedJoin(#"Removed Other Columns", {"Saturation_Rate"}, Fact_visitor_flow, {"Saturation_Rate"}, "Fact_visitor_flow", JoinKind.LeftOuter),
+				    #"Expanded Fact_visitor_flow" = Table.ExpandTableColumn(#"Merged Queries", "Fact_visitor_flow", {"Fact_visitor_flow_ID"}, {"Fact_visitor_flow.Fact_visitor_flow_ID"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Expanded Fact_visitor_flow",{{"Fact_visitor_flow.Fact_visitor_flow_ID", "Visitor Saturation ID"}}),
+				    #"Filtered Rows" = Table.SelectRows(#"Renamed Columns", each ([Saturation_Rate] <> null))
+				in
+				    #"Filtered Rows"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

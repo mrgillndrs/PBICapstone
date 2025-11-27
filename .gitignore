@@ -1,0 +1,28 @@
+# Power BI Project specific
+*.pbix
+*.pbit
+cache.abf
+localSettings.json
+editorSettings.json
+
+# Temporary files
+*.tmp
+~$*
+
+# OS specific
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Personal notes (optional - remove if you want to commit notes)
+**/notes/
+**/scratch/

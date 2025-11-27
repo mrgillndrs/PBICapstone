@@ -1,0 +1,43 @@
+table dimInvasiveDate
+	lineageTag: 1d7959ab-d605-4a5a-8862-51e30fd931cf
+
+	column Year
+		dataType: string
+		lineageTag: 5d50635c-31e4-4e08-8390-a3d542ac0214
+		summarizeBy: none
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column InvasiveDateID
+		dataType: int64
+		formatString: 0
+		lineageTag: 9fd0c9f9-2a5f-46ff-9ed9-090d0702827c
+		summarizeBy: none
+		sourceColumn: InvasiveDateID
+
+		annotation SummarizationSetBy = User
+
+	partition dimInvasiveDate = m
+		mode: import
+		queryGroup: 'Invasive Vegetation'
+		source =
+				let
+				    Source = Table.Combine({#"Invasive Yoho", #"Invasive Kootenays"}),
+				    #"Merged Queries" = Table.NestedJoin(Source, {"Plot"}, dimInvasivePlot, {"Plot"}, "dimInvasivePlot", JoinKind.LeftOuter),
+				    #"Expanded dimInvasivePlot" = Table.ExpandTableColumn(#"Merged Queries", "dimInvasivePlot", {"InvasivePlotID"}, {"dimInvasivePlot.InvasivePlotID"}),
+				    #"Merged Queries1" = Table.NestedJoin(#"Expanded dimInvasivePlot", {"Species"}, dimInvasiveSpecies, {"Species"}, "dimInvasiveSpecies", JoinKind.LeftOuter),
+				    #"Expanded dimInvasiveSpecies" = Table.ExpandTableColumn(#"Merged Queries1", "dimInvasiveSpecies", {"InvasiveSpeciesID"}, {"dimInvasiveSpecies.InvasiveSpeciesID"}),
+				    #"Merged Queries2" = Table.NestedJoin(#"Expanded dimInvasiveSpecies", {"Park"}, dimInvasiveLocation, {"Park"}, "dimInvasiveLocation", JoinKind.LeftOuter),
+				    #"Expanded dimInvasiveLocation" = Table.ExpandTableColumn(#"Merged Queries2", "dimInvasiveLocation", {"InvasiveLocationID"}, {"dimInvasiveLocation.InvasiveLocationID"}),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Expanded dimInvasiveLocation",{"Year"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns"),
+				    #"Added Index" = Table.AddIndexColumn(#"Removed Duplicates", "Index", 1, 1, Int64.Type),
+				    #"Renamed Columns" = Table.RenameColumns(#"Added Index",{{"Index", "InvasiveDateID"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

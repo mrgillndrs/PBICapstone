@@ -1,0 +1,38 @@
+table dimInvasiveSpecies
+	lineageTag: b4692b62-3912-43d6-92fb-6af3304faaea
+
+	column Species
+		dataType: string
+		lineageTag: 7d3548f1-07f3-4380-8edb-1932bd877ef4
+		summarizeBy: none
+		sourceColumn: Species
+
+		annotation SummarizationSetBy = Automatic
+
+	column Index
+		dataType: int64
+		formatString: 0
+		lineageTag: e641883e-7c10-41fe-8720-68f4cd49acbe
+		summarizeBy: none
+		sourceColumn: Index
+
+		annotation SummarizationSetBy = User
+
+	partition dimInvasiveSpecies = m
+		mode: import
+		queryGroup: 'Invasive Vegetation'
+		source =
+				let
+				    Source = Table.Combine({#"Invasive Yoho", #"Invasive Kootenays"}),
+				    #"Merged Queries" = Table.NestedJoin(Source, {"Plot"}, dimInvasivePlot, {"Plot"}, "dimInvasivePlot", JoinKind.LeftOuter),
+				    #"Expanded dimInvasivePlot" = Table.ExpandTableColumn(#"Merged Queries", "dimInvasivePlot", {"InvasivePlotID"}, {"dimInvasivePlot.InvasivePlotID"}),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Expanded dimInvasivePlot",{"Species"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns"),
+				    #"Added Index" = Table.AddIndexColumn(#"Removed Duplicates", "Index", 1, 1, Int64.Type)
+				in
+				    #"Added Index"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

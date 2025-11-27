@@ -1,0 +1,58 @@
+table dimHealthyPlot
+	lineageTag: 4413f6de-18f9-4019-b070-ce06d05ffd16
+
+	column 'Plot Identification'
+		dataType: string
+		lineageTag: b5d8811d-73d0-4f3c-a6b9-14c1b17466b2
+		summarizeBy: none
+		sourceColumn: Plot Identification
+
+		annotation SummarizationSetBy = Automatic
+
+	column Latitude
+		dataType: double
+		lineageTag: 8f6dbbf6-521f-4cb7-9fb3-327d560dcc36
+		summarizeBy: none
+		sourceColumn: Latitude
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Longitude
+		dataType: double
+		lineageTag: b9b28382-33fc-4094-bd4c-b302c83bc938
+		summarizeBy: none
+		sourceColumn: Longitude
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column HealthPlotID
+		dataType: int64
+		formatString: 0
+		lineageTag: b46960d0-86cc-492c-885c-002a039d03f4
+		summarizeBy: none
+		sourceColumn: HealthPlotID
+
+		annotation SummarizationSetBy = User
+
+	partition dimHealthyPlot = m
+		mode: import
+		queryGroup: 'Healthy Vegetation'
+		source =
+				let
+				    Source = Table.Combine({#"Vegetation Yoho", #"Vegetation Kootenay"}),
+				    #"Replaced Value" = Table.ReplaceValue(Source,"","Sonchus arvensis",Replacer.ReplaceValue,{"Species Present in Area"}),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Replaced Value",{"Plot Identification", "Latitude", "Longitude"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns", {"Plot Identification"}),
+				    #"Added Index" = Table.AddIndexColumn(#"Removed Duplicates", "Index", 1, 1, Int64.Type),
+				    #"Renamed Columns" = Table.RenameColumns(#"Added Index",{{"Index", "HealthPlotID"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

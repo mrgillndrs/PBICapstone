@@ -1,0 +1,46 @@
+table Dim_Date
+	lineageTag: 21f82075-99da-47b8-ae31-e70c5be971d4
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: a0584623-9cd7-4fba-ad97-574538754de7
+		summarizeBy: none
+		sourceColumn: Date
+
+		variation Variation
+			isDefault
+			relationship: bf85d6f9-3f37-46fd-8dfe-712209ffa15d
+			defaultHierarchy: LocalDateTable_371e9064-1813-46fb-b2fd-d010fac5730a.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Date ID'
+		dataType: int64
+		formatString: 0
+		lineageTag: a8092526-a980-4f17-9cfa-d3197e9924d5
+		summarizeBy: count
+		sourceColumn: Date ID
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_Date = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Web.Contents("https://mysait.sharepoint.com/sites/BSNCapstone200/Shared%20Documents/General/Capstone%20Datasets/banff_dashboard_updated_data.csv"),[Delimiter=",", Columns=5, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Promoted Headers",{"Date"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Removed Other Columns",{{"Date", type date}}),
+				    #"Merged Queries" = Table.NestedJoin(#"Changed Type", {"Date"}, Fact_visitor_flow, {"Date"}, "Fact_visitor_flow", JoinKind.LeftOuter),
+				    #"Expanded Fact_visitor_flow" = Table.ExpandTableColumn(#"Merged Queries", "Fact_visitor_flow", {"Fact_visitor_flow_ID"}, {"Fact_visitor_flow.Fact_visitor_flow_ID"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Expanded Fact_visitor_flow",{{"Fact_visitor_flow.Fact_visitor_flow_ID", "Date ID"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,39 @@
+table Dim_Monthly_Visitors
+	lineageTag: 5cdc7486-2f83-4c26-9ae2-4473521520c1
+
+	column Visitor_number
+		dataType: int64
+		formatString: 0
+		lineageTag: f94fe769-0646-436f-a3e9-3b8e9bf1beea
+		summarizeBy: sum
+		sourceColumn: Visitor_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Visitor ID'
+		dataType: int64
+		formatString: 0
+		lineageTag: 29300d1e-f6fc-4305-95e4-fcdc476fce73
+		summarizeBy: none
+		sourceColumn: Visitor ID
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_Monthly_Visitors = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Web.Contents("https://mysait.sharepoint.com/sites/BSNCapstone200/Shared%20Documents/General/Capstone%20Datasets/banff_dashboard_updated_data.csv"),[Delimiter=",", Columns=5, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Promoted Headers",{"Visitor_number"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Removed Other Columns",{{"Visitor_number", Int64.Type}}),
+				    #"Merged Queries" = Table.NestedJoin(#"Changed Type", {"Visitor_number"}, Fact_visitor_flow, {"Visitor_number"}, "Fact_visitor_flow", JoinKind.LeftOuter),
+				    #"Expanded Fact_visitor_flow" = Table.ExpandTableColumn(#"Merged Queries", "Fact_visitor_flow", {"Fact_visitor_flow_ID"}, {"Fact_visitor_flow.Fact_visitor_flow_ID"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Expanded Fact_visitor_flow",{{"Fact_visitor_flow.Fact_visitor_flow_ID", "Visitor ID"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

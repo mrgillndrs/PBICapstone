@@ -1,0 +1,49 @@
+table dimLoostrifeLocation
+	lineageTag: 87c14eaa-ad77-4196-9b58-08da8c7d9207
+
+	column Watershed
+		dataType: string
+		lineageTag: cd1144b6-2b27-4c4d-97bd-4ee69e5972b3
+		summarizeBy: none
+		sourceColumn: Watershed
+
+		annotation SummarizationSetBy = Automatic
+
+	column Site
+		dataType: string
+		lineageTag: aa3019c1-c35f-4505-8705-567bdd471f0f
+		summarizeBy: none
+		sourceColumn: Site
+
+		annotation SummarizationSetBy = Automatic
+
+	column LoostrifeLocationID
+		dataType: int64
+		formatString: 0
+		lineageTag: ce6daa11-c99e-47da-a204-d032e3066f75
+		summarizeBy: none
+		sourceColumn: LoostrifeLocationID
+
+		annotation SummarizationSetBy = User
+
+	partition dimLoostrifeLocation = m
+		mode: import
+		queryGroup: PEILoostrife
+		source =
+				let
+				    Source = Csv.Document(Web.Contents("https://mysait.sharepoint.com/sites/BSNCapstone200/Shared%20Documents/General/Capstone%20Datasets/PEI%20Purple%20Loostrife%20Clean(CSV).csv"),[Delimiter=",", Columns=9, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Ecosystem", type text}, {"Watershed", type text}, {"Site", type text}, {"Wetland Class", type text}, {"Year", Int64.Type}, {"Total Removed", Int64.Type}, {"Total Number of Stems", Int64.Type}, {"", type text}, {"_1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"", "_1", "Wetland Class", "Ecosystem"}),
+				    #"Removed Bottom Rows" = Table.RemoveLastN(#"Removed Columns",1),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Removed Bottom Rows",{"Watershed", "Site"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns"),
+				    #"Added Index" = Table.AddIndexColumn(#"Removed Duplicates", "Index", 1, 1, Int64.Type),
+				    #"Renamed Columns" = Table.RenameColumns(#"Added Index",{{"Index", "LoostrifeLocationID"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
