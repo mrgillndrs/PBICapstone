@@ -315,8 +315,6 @@ Full citations available in Phase Two Report (see `/Capstone Documentation/Phase
 - Power BI Desktop (PBIP format)
 - DAX (Data Analysis Expressions)
 - Power Query M
-- TMDL (Tabular Model Definition Language)
-- Git & GitHub for version control
 
 ---
 
